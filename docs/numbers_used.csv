@@ -489,31 +489,31 @@ Worst day 2026-07-12 ratio,18.06%,outputs/error_analysis.md
 Worst day predictions in Diwali window,4,outputs/error_analysis.md
 Diwali worst target date,2025-10-21,outputs/error_analysis.md
 Diwali worst target actual AQI,454.66,outputs/error_analysis.md
-SHAP h1 Pollutants mean abs,71.8,outputs/shap_family_importance.csv
-SHAP h1 Pollutants share,60.5%,outputs/shap_family_importance.csv
-SHAP h1 AQI history mean abs,30.94,outputs/shap_family_importance.csv
-SHAP h1 AQI history share,26.1%,outputs/shap_family_importance.csv
-SHAP h1 Weather mean abs,10.31,outputs/shap_family_importance.csv
-SHAP h1 Weather share,8.7%,outputs/shap_family_importance.csv
-SHAP h1 Calendar mean abs,5.54,outputs/shap_family_importance.csv
-SHAP h1 Calendar share,4.7%,outputs/shap_family_importance.csv
-SHAP h3 Pollutants mean abs,48.44,outputs/shap_family_importance.csv
-SHAP h3 Pollutants share,40.6%,outputs/shap_family_importance.csv
-SHAP h3 AQI history mean abs,32.08,outputs/shap_family_importance.csv
-SHAP h3 AQI history share,26.9%,outputs/shap_family_importance.csv
-SHAP h3 Weather mean abs,13.67,outputs/shap_family_importance.csv
-SHAP h3 Weather share,11.5%,outputs/shap_family_importance.csv
-SHAP h3 Calendar mean abs,24.97,outputs/shap_family_importance.csv
-SHAP h3 Calendar share,21.0%,outputs/shap_family_importance.csv
-SHAP h5 Pollutants mean abs,40.77,outputs/shap_family_importance.csv
-SHAP h5 Pollutants share,34.9%,outputs/shap_family_importance.csv
-SHAP h5 AQI history mean abs,26.96,outputs/shap_family_importance.csv
-SHAP h5 AQI history share,23.1%,outputs/shap_family_importance.csv
-SHAP h5 Weather mean abs,12.03,outputs/shap_family_importance.csv
-SHAP h5 Weather share,10.3%,outputs/shap_family_importance.csv
-SHAP h5 Calendar mean abs,37.16,outputs/shap_family_importance.csv
-SHAP h5 Calendar share,31.8%,outputs/shap_family_importance.csv
-h1 Pollutants + AQI share combined,86.6%,outputs/shap_notes.md
+SHAP h1 Pollutants mean abs,59.92,outputs/shap_family_importance.csv
+SHAP h1 Pollutants share,61.6%,outputs/shap_family_importance.csv
+SHAP h1 AQI history mean abs,27.96,outputs/shap_family_importance.csv
+SHAP h1 AQI history share,28.7%,outputs/shap_family_importance.csv
+SHAP h1 Weather mean abs,5.66,outputs/shap_family_importance.csv
+SHAP h1 Weather share,5.8%,outputs/shap_family_importance.csv
+SHAP h1 Calendar mean abs,3.73,outputs/shap_family_importance.csv
+SHAP h1 Calendar share,3.8%,outputs/shap_family_importance.csv
+SHAP h3 Pollutants mean abs,38.63,outputs/shap_family_importance.csv
+SHAP h3 Pollutants share,40.9%,outputs/shap_family_importance.csv
+SHAP h3 AQI history mean abs,28.79,outputs/shap_family_importance.csv
+SHAP h3 AQI history share,30.5%,outputs/shap_family_importance.csv
+SHAP h3 Weather mean abs,8.26,outputs/shap_family_importance.csv
+SHAP h3 Weather share,8.8%,outputs/shap_family_importance.csv
+SHAP h3 Calendar mean abs,18.65,outputs/shap_family_importance.csv
+SHAP h3 Calendar share,19.8%,outputs/shap_family_importance.csv
+SHAP h5 Pollutants mean abs,33.13,outputs/shap_family_importance.csv
+SHAP h5 Pollutants share,35.7%,outputs/shap_family_importance.csv
+SHAP h5 AQI history mean abs,23.99,outputs/shap_family_importance.csv
+SHAP h5 AQI history share,25.8%,outputs/shap_family_importance.csv
+SHAP h5 Weather mean abs,7.25,outputs/shap_family_importance.csv
+SHAP h5 Weather share,7.8%,outputs/shap_family_importance.csv
+SHAP h5 Calendar mean abs,28.54,outputs/shap_family_importance.csv
+SHAP h5 Calendar share,30.7%,outputs/shap_family_importance.csv
+h1 Pollutants + AQI share combined,90.3%,outputs/shap_notes.md
 SHAP h1 Good Actual,407.4,outputs/shap_notes.md
 SHAP h1 Good Pred,402.3,outputs/shap_notes.md
 SHAP h1 Good Error,5.09,outputs/shap_notes.md

@@ -29,6 +29,7 @@ Outputs:
 import sys
 import time
 import json
+import argparse
 from pathlib import Path
 from datetime import timedelta
 import numpy as np
@@ -82,6 +83,38 @@ def build_climatology_lookup(train_df: pd.DataFrame) -> dict[int, float]:
     return climatology_map
 
 
+def compute_damped_persistence(train_df: pd.DataFrame, eval_df: pd.DataFrame, climatology_map: dict[int, float], h: int) -> tuple[np.ndarray, float]:
+    """
+    Computes damped anomaly persistence baseline for horizon h.
+    Anomaly rho_h is fit strictly on TRAIN data via OLS through the origin:
+      a_{t+h} = rho_h * a_t + eps
+    Predictions for eval_df are then:
+      y_hat_{t+h} = clip(C(doy(t+h)) + rho_h * (y_t - C(doy(t))), 0, 500)
+    """
+    train_dates = pd.to_datetime(train_df["date"])
+    train_doy = np.array([to_doy365(d) for d in train_dates])
+    train_clim = np.array([climatology_map[d] for d in train_doy])
+    train_anom = train_df["aqi"].values - train_clim
+
+    train_target_doy = np.array([to_doy365(d) for d in train_dates + timedelta(days=h)])
+    train_target_clim = np.array([climatology_map[d] for d in train_target_doy])
+    train_target_anom = train_df[f"target_h{h}"].values - train_target_clim
+
+    denom = np.sum(train_anom ** 2)
+    rho_h = float(np.sum(train_anom * train_target_anom) / denom) if denom > 0 else 0.0
+
+    eval_dates = pd.to_datetime(eval_df["date"])
+    eval_doy = np.array([to_doy365(d) for d in eval_dates])
+    eval_clim = np.array([climatology_map[d] for d in eval_doy])
+    eval_anom = eval_df["aqi"].values - eval_clim
+
+    eval_target_doy = np.array([to_doy365(d) for d in eval_dates + timedelta(days=h)])
+    eval_target_clim = np.array([climatology_map[d] for d in eval_target_doy])
+
+    pred = np.clip(eval_target_clim + rho_h * eval_anom, 0.0, 500.0)
+    return pred, rho_h
+
+
 def run_baselines(train_df, val_df, feature_cols, climatology_map, cv):
     """Evaluates Persistence, Climatology, and Ridge on Validation set for h=1..5."""
     X_train = train_df[feature_cols]
@@ -99,6 +132,8 @@ def run_baselines(train_df, val_df, feature_cols, climatology_map, cv):
     print("\n" + "="*105)
     print("RUNNING MULTI-HORIZON BASELINES ON VALIDATION SET (h = 1..5)")
     print("="*105)
+
+    best_baseline_records = {}
 
     for h in range(1, 6):
         target_col = f"target_h{h}"
@@ -122,12 +157,15 @@ def run_baselines(train_df, val_df, feature_cols, climatology_map, cv):
         rep_clim["horizon"] = h
         all_per_class.append(rep_clim)
 
-        baseline_maes[h] = {
-            "persistence": met_pers["MAE"],
-            "climatology": met_clim["MAE"]
-        }
+        # 3. Damped Anomaly Persistence
+        pred_damped, rho_h = compute_damped_persistence(train_df, val_df, climatology_map, h)
+        met_dp = evaluate(y_val_h, pred_damped)
+        rep_dp = per_class_report(y_val_h, pred_damped)
+        rep_dp["model"] = "Damped Anomaly Persistence"
+        rep_dp["horizon"] = h
+        all_per_class.append(rep_dp)
 
-        # 3. Ridge
+        # 4. Ridge
         pipe = Pipeline([
             ("scaler", StandardScaler()),
             ("ridge", Ridge(random_state=RANDOM_SEED))
@@ -143,17 +181,42 @@ def run_baselines(train_df, val_df, feature_cols, climatology_map, cv):
         rep_ridge["horizon"] = h
         all_per_class.append(rep_ridge)
 
-        # Skills
+        # Candidate baseline selection (Ridge is a model, not a baseline)
         p_mae = met_pers["MAE"]
         c_mae = met_clim["MAE"]
+        dp_mae = met_dp["MAE"]
         r_mae = met_ridge["MAE"]
 
+        candidates = [
+            ("Persistence", p_mae),
+            ("Climatology", c_mae),
+            ("Damped Anomaly Persistence", dp_mae),
+        ]
+        best_cand_name, best_b_mae = min(candidates, key=lambda x: x[1])
+
+        best_baseline_records[str(h)] = {
+            "best_baseline_name": best_cand_name,
+            "best_baseline_val_mae": float(best_b_mae),
+            "rho_h": float(rho_h)
+        }
+
+        baseline_maes[h] = {
+            "persistence": p_mae,
+            "climatology": c_mae,
+            "damped_persistence": dp_mae,
+            "best_baseline": best_cand_name,
+            "best_baseline_mae": best_b_mae
+        }
+
+        # Skills
         skill_pers_pers = 0.0
-        skill_pers_best = skill_vs_best_baseline(p_mae, p_mae, c_mae)
+        skill_pers_best = skill_vs_best_baseline(p_mae, best_b_mae)
         skill_clim_pers = skill_vs_persistence(c_mae, p_mae)
-        skill_clim_best = skill_vs_best_baseline(c_mae, p_mae, c_mae)
+        skill_clim_best = skill_vs_best_baseline(c_mae, best_b_mae)
+        skill_dp_pers = skill_vs_persistence(dp_mae, p_mae)
+        skill_dp_best = skill_vs_best_baseline(dp_mae, best_b_mae)
         skill_ridge_pers = skill_vs_persistence(r_mae, p_mae)
-        skill_ridge_best = skill_vs_best_baseline(r_mae, p_mae, c_mae)
+        skill_ridge_best = skill_vs_best_baseline(r_mae, best_b_mae)
 
         met_pers_row = {
             "model": "Persistence", "horizon": h, **met_pers,
@@ -163,11 +226,15 @@ def run_baselines(train_df, val_df, feature_cols, climatology_map, cv):
             "model": "Climatology", "horizon": h, **met_clim,
             "skill_vs_persistence": skill_clim_pers, "skill_vs_best_baseline": skill_clim_best
         }
+        met_dp_row = {
+            "model": "Damped Anomaly Persistence", "horizon": h, "best_alpha": np.nan, **met_dp,
+            "skill_vs_persistence": skill_dp_pers, "skill_vs_best_baseline": skill_dp_best
+        }
         met_ridge_row = {
             "model": "Ridge", "horizon": h, "best_alpha": best_alpha, **met_ridge,
             "skill_vs_persistence": skill_ridge_pers, "skill_vs_best_baseline": skill_ridge_best
         }
-        all_metrics.extend([met_pers_row, met_clim_row, met_ridge_row])
+        all_metrics.extend([met_pers_row, met_clim_row, met_dp_row, met_ridge_row])
 
         compact_summary.append({
             "model": "Persistence", "horizon": f"h={h}", "MAE": p_mae, "bias": met_pers["bias"],
@@ -182,19 +249,26 @@ def run_baselines(train_df, val_df, feature_cols, climatology_map, cv):
             "skill_pers": skill_clim_pers, "skill_best": skill_clim_best
         })
         compact_summary.append({
+            "model": "Damped Anomaly Pers", "horizon": f"h={h}", "MAE": dp_mae, "bias": met_dp["bias"],
+            "within_one_acc": met_dp["within_one_category_accuracy"],
+            "alert_prec": met_dp["alert_precision"], "alert_recall": met_dp["alert_recall"],
+            "skill_pers": skill_dp_pers, "skill_best": skill_dp_best
+        })
+        compact_summary.append({
             "model": f"Ridge (a={best_alpha})", "horizon": f"h={h}", "MAE": r_mae, "bias": met_ridge["bias"],
             "within_one_acc": met_ridge["within_one_category_accuracy"],
             "alert_prec": met_ridge["alert_precision"], "alert_recall": met_ridge["alert_recall"],
             "skill_pers": skill_ridge_pers, "skill_best": skill_ridge_best
         })
 
-        for d_str, yt, pp, pc, pr in zip(val_df["date"], y_val_h, pred_pers, pred_clim, pred_ridge):
+        for d_str, yt, pp, pc, pdp, pr in zip(val_df["date"], y_val_h, pred_pers, pred_clim, pred_damped, pred_ridge):
             val_preds_records.append({
                 "date": d_str,
                 "horizon": h,
                 "truth": float(yt),
                 "pred_persistence": float(np.clip(pp, 0.0, 500.0)),
                 "pred_climatology": float(np.clip(pc, 0.0, 500.0)),
+                "pred_damped_persistence": float(np.clip(pdp, 0.0, 500.0)),
                 "pred_ridge": float(np.clip(pr, 0.0, 500.0)),
             })
 
@@ -215,6 +289,14 @@ def run_baselines(train_df, val_df, feature_cols, climatology_map, cv):
     preds_path = out_dir / "val_predictions_baselines.csv"
     df_preds.to_csv(preds_path, index=False)
     print(f"Saved baseline predictions to {preds_path}")
+
+    # Save models/best_baseline.json
+    models_dir = REPO_ROOT / "models"
+    models_dir.mkdir(parents=True, exist_ok=True)
+    best_baseline_path = models_dir / "best_baseline.json"
+    with open(best_baseline_path, "w", encoding="utf-8") as f:
+        json.dump(best_baseline_records, f, indent=2)
+    print(f"Saved best baseline validation choices to {best_baseline_path}")
 
     df_compact = pd.DataFrame(compact_summary)
     print("\n" + "="*115)
@@ -499,6 +581,10 @@ def plot_rf_feature_importances(model_h1, model_h5, feature_names, out_path):
 
 
 def main():
+    parser = argparse.ArgumentParser(description="Train baselines and Random Forest models.")
+    parser.add_argument("--baselines-only", action="store_true", help="Run validation baselines and generate models/best_baseline.json without tuning RF.")
+    args = parser.parse_args()
+
     train_df, val_df, _ = get_splits()
     with open(REPO_ROOT / "models" / "feature_columns.json", "r", encoding="utf-8") as f:
         feature_cols = json.load(f)
@@ -507,7 +593,8 @@ def main():
     cv = TimeSeriesSplit(n_splits=CV_SPLITS, gap=CV_GAP)
 
     baseline_maes = run_baselines(train_df, val_df, feature_cols, climatology_map, cv)
-    run_random_forest(train_df, val_df, feature_cols, baseline_maes, cv)
+    if not args.baselines_only:
+        run_random_forest(train_df, val_df, feature_cols, baseline_maes, cv)
 
 
 if __name__ == "__main__":

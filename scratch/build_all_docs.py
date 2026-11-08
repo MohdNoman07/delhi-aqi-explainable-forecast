@@ -294,7 +294,7 @@ Distribution of CPCB AQI health categories across partitions (`outputs/split_sum
 | **Severe** | 401 – 500 | {track("Train Severe days count", 132, "outputs/split_summary.md")} ({track("Train Severe days share", "7.00%", "outputs/split_summary.md")}) | {track("Val Severe days count", 25, "outputs/split_summary.md")} ({track("Val Severe days share", "7.10%", "outputs/split_summary.md")}) | {track("Test Severe days count", 44, "outputs/split_summary.md")} ({track("Test Severe days share", "4.96%", "outputs/split_summary.md")}) |
 | **Poor-or-worse (AQI > 200)** | > 200 | **{track("Train Poor-or-worse count", 924, "outputs/split_summary.md")} ({track("Train Poor-or-worse share", "48.97%", "outputs/split_summary.md")})** | **{track("Val Poor-or-worse count", 153, "outputs/split_summary.md")} ({track("Val Poor-or-worse share", "43.47%", "outputs/split_summary.md")})** | **{track("Test Poor-or-worse count", 331, "outputs/split_summary.md")} ({track("Test Poor-or-worse share", "37.32%", "outputs/split_summary.md")})** |
 
-> **Audit Note on Target Distribution**: The test period as having lower pollution levels than the training period is documented in the split summary without asserting a cause: Poor-or-worse days ($\text{{AQI}} > 200$) accounted for 48.97% of the training set but 37.32% in the test holdout; Severe days accounted for 7.00% in training and 4.96% in the test holdout. Additionally, the validation set contained zero Good days and the test set contained only 6 Good days (0.68%), rendering single-class Good metrics statistically unreliable.
+> **Audit Note on Target Distribution**: The test period as having lower pollution levels than the training period is documented in the split summary without asserting a cause: Poor-or-worse days ($\\text{{AQI}} > 200$) accounted for 48.97% of the training set but 37.32% in the test holdout; Severe days accounted for 7.00% in training and 4.96% in the test holdout. Additionally, the validation set contained zero Good days and the test set contained only 6 Good days (0.68%), rendering single-class Good metrics statistically unreliable.
 
 ### 5.3 Cross-Validation and Hyperparameter Tuning
 Hyperparameter optimization was conducted strictly on the training set using an expanding-window `TimeSeriesSplit(n_splits=4, gap=5)` (`src/config.py`).
@@ -553,22 +553,22 @@ Grouping features into four families (`outputs/shap_family_importance.csv`, `out
 
 | Horizon | Family | Mean Absolute SHAP (AQI Points) | Attribution Share (%) |
 |:---:|:---|:---:|:---:|
-| **$h=1$** | **Pollutants** | {track("SHAP h1 Pollutants mean abs", 71.80, "outputs/shap_family_importance.csv")} | **{track("SHAP h1 Pollutants share", "60.5%", "outputs/shap_family_importance.csv")}** |
-| **$h=1$** | **AQI History** | {track("SHAP h1 AQI history mean abs", 30.94, "outputs/shap_family_importance.csv")} | **{track("SHAP h1 AQI history share", "26.1%", "outputs/shap_family_importance.csv")}** |
-| **$h=1$** | **Weather** | {track("SHAP h1 Weather mean abs", 10.31, "outputs/shap_family_importance.csv")} | **{track("SHAP h1 Weather share", "8.7%", "outputs/shap_family_importance.csv")}** |
-| **$h=1$** | **Calendar** | {track("SHAP h1 Calendar mean abs", 5.54, "outputs/shap_family_importance.csv")} | **{track("SHAP h1 Calendar share", "4.7%", "outputs/shap_family_importance.csv")}** |
+| **$h=1$** | **Pollutants** | {track("SHAP h1 Pollutants mean abs", 59.92, "outputs/shap_family_importance.csv")} | **{track("SHAP h1 Pollutants share", "61.6%", "outputs/shap_family_importance.csv")}** |
+| **$h=1$** | **AQI History** | {track("SHAP h1 AQI history mean abs", 27.96, "outputs/shap_family_importance.csv")} | **{track("SHAP h1 AQI history share", "28.7%", "outputs/shap_family_importance.csv")}** |
+| **$h=1$** | **Weather** | {track("SHAP h1 Weather mean abs", 5.66, "outputs/shap_family_importance.csv")} | **{track("SHAP h1 Weather share", "5.8%", "outputs/shap_family_importance.csv")}** |
+| **$h=1$** | **Calendar** | {track("SHAP h1 Calendar mean abs", 3.73, "outputs/shap_family_importance.csv")} | **{track("SHAP h1 Calendar share", "3.8%", "outputs/shap_family_importance.csv")}** |
 |---|---|---|---|
-| **$h=3$** | **Pollutants** | {track("SHAP h3 Pollutants mean abs", 48.44, "outputs/shap_family_importance.csv")} | **{track("SHAP h3 Pollutants share", "40.6%", "outputs/shap_family_importance.csv")}** |
-| **$h=3$** | **AQI History** | {track("SHAP h3 AQI history mean abs", 32.08, "outputs/shap_family_importance.csv")} | **{track("SHAP h3 AQI history share", "26.9%", "outputs/shap_family_importance.csv")}** |
-| **$h=3$** | **Weather** | {track("SHAP h3 Weather mean abs", 13.67, "outputs/shap_family_importance.csv")} | **{track("SHAP h3 Weather share", "11.5%", "outputs/shap_family_importance.csv")}** |
-| **$h=3$** | **Calendar** | {track("SHAP h3 Calendar mean abs", 24.97, "outputs/shap_family_importance.csv")} | **{track("SHAP h3 Calendar share", "21.0%", "outputs/shap_family_importance.csv")}** |
+| **$h=3$** | **Pollutants** | {track("SHAP h3 Pollutants mean abs", 38.63, "outputs/shap_family_importance.csv")} | **{track("SHAP h3 Pollutants share", "40.9%", "outputs/shap_family_importance.csv")}** |
+| **$h=3$** | **AQI History** | {track("SHAP h3 AQI history mean abs", 28.79, "outputs/shap_family_importance.csv")} | **{track("SHAP h3 AQI history share", "30.5%", "outputs/shap_family_importance.csv")}** |
+| **$h=3$** | **Weather** | {track("SHAP h3 Weather mean abs", 8.26, "outputs/shap_family_importance.csv")} | **{track("SHAP h3 Weather share", "8.8%", "outputs/shap_family_importance.csv")}** |
+| **$h=3$** | **Calendar** | {track("SHAP h3 Calendar mean abs", 18.65, "outputs/shap_family_importance.csv")} | **{track("SHAP h3 Calendar share", "19.8%", "outputs/shap_family_importance.csv")}** |
 |---|---|---|---|
-| **$h=5$** | **Pollutants** | {track("SHAP h5 Pollutants mean abs", 40.77, "outputs/shap_family_importance.csv")} | **{track("SHAP h5 Pollutants share", "34.9%", "outputs/shap_family_importance.csv")}** |
-| **$h=5$** | **AQI History** | {track("SHAP h5 AQI history mean abs", 26.96, "outputs/shap_family_importance.csv")} | **{track("SHAP h5 AQI history share", "23.1%", "outputs/shap_family_importance.csv")}** |
-| **$h=5$** | **Weather** | {track("SHAP h5 Weather mean abs", 12.03, "outputs/shap_family_importance.csv")} | **{track("SHAP h5 Weather share", "10.3%", "outputs/shap_family_importance.csv")}** |
-| **$h=5$** | **Calendar** | {track("SHAP h5 Calendar mean abs", 37.16, "outputs/shap_family_importance.csv")} | **{track("SHAP h5 Calendar share", "31.8%", "outputs/shap_family_importance.csv")}** |
+| **$h=5$** | **Pollutants** | {track("SHAP h5 Pollutants mean abs", 33.13, "outputs/shap_family_importance.csv")} | **{track("SHAP h5 Pollutants share", "35.7%", "outputs/shap_family_importance.csv")}** |
+| **$h=5$** | **AQI History** | {track("SHAP h5 AQI history mean abs", 23.99, "outputs/shap_family_importance.csv")} | **{track("SHAP h5 AQI history share", "25.8%", "outputs/shap_family_importance.csv")}** |
+| **$h=5$** | **Weather** | {track("SHAP h5 Weather mean abs", 7.25, "outputs/shap_family_importance.csv")} | **{track("SHAP h5 Weather share", "7.8%", "outputs/shap_family_importance.csv")}** |
+| **$h=5$** | **Calendar** | {track("SHAP h5 Calendar mean abs", 28.54, "outputs/shap_family_importance.csv")} | **{track("SHAP h5 Calendar share", "30.7%", "outputs/shap_family_importance.csv")}** |
 
-> **Headline Interpretability Finding**: At $h=1$, Pollutants (60.5%) + AQI history (26.1%) comprise {track("h1 Pollutants + AQI share combined", "86.6%", "outputs/shap_notes.md")} of total attribution, while Calendar features comprise only 4.7%. By $h=5$, Calendar expands to 31.8% and Pollutants drop to 34.9%; the model's attribution shifts from daily readings toward calendar features as the horizon grows.
+> **Headline Interpretability Finding**: At $h=1$, Pollutants (61.6%) + AQI history (28.7%) comprise {track("h1 Pollutants + AQI share combined", "90.3%", "outputs/shap_notes.md")} of total attribution, while Calendar features comprise only 3.8%. By $h=5$, Calendar expands to 30.7% and Pollutants drop to 35.7%; the model's attribution shifts from daily readings toward calendar features as the horizon grows.
 
 ### 8.3 Beeswarm Summaries and Individual Feature Ranks
 1. **Horizon $h=1$** (`outputs/shap_summary_h1.png`, `outputs/shap_bar_h1.png`): Today's readings (`pm25`, `aqi`, `pm25_max`) display the highest mean absolute SHAP values. High surface wind speeds and negative `day_of_year_cos` values lower the forecast.
@@ -678,7 +678,7 @@ This project evaluated multi-horizon air quality forecasting in Delhi across eig
 1. **Early Horizon Skill**: The model improves on persistence and climatology at 1 to 2 days ahead, reducing 1-day MAE to 27.57 (11.0% skill over persistence) and 2-day MAE to 36.34 (10.1% skill over climatology).
 2. **Medium Horizon Convergence**: At 3 to 5 days it is statistically indistinguishable from climatology (intervals include zero) and from Ridge.
 3. **Alert Detection Benchmark**: At days 3 to 5 the alert detection is not better than the trivial rule "alert on every winter day"; at days 3 to 5 Random Forest has no demonstrated advantage over the trivial winter rule.
-4. **Explainability Horizon Shift**: The SHAP attribution shifts toward calendar features as the horizon grows (Pollutants and AQI history drop from 86.6% combined share at $h=1$ to 57.9% at $h=5$, while Calendar expands from 4.7% to 31.8%).
+4. **Explainability Horizon Shift**: The SHAP attribution shifts toward calendar features as the horizon grows (Pollutants and AQI history drop from 90.3% combined share at $h=1$ to 61.5% at $h=5$, while Calendar expands from 3.8% to 30.7%).
 
 ### 11.2 References
 1. Central Pollution Control Board (CPCB). *National Air Quality Index: Technical Report*, 2014.
@@ -793,8 +793,8 @@ def build_slides_outline():
 ---
 
 ### Slide 10: SHAP Family Chart
-- **Bullet 1**: SHAP attribution reveals a systematic shift: at $h=1$, Pollutants (60.5%) + AQI history (26.1%) comprise 86.6% of attribution, with Calendar at 4.7%.
-- **Bullet 2**: The SHAP attribution shifts toward calendar features as the horizon grows: at $h=5$, Calendar features expand to 31.8% while Pollutants drop to 34.9%.
+- **Bullet 1**: SHAP attribution reveals a systematic shift: at $h=1$, Pollutants (61.6%) + AQI history (28.7%) comprise 90.3% of attribution, with Calendar at 3.8%.
+- **Bullet 2**: The SHAP attribution shifts toward calendar features as the horizon grows: at $h=5$, Calendar features expand to 30.7% while Pollutants drop to 35.7%.
 - **Bullet 3**: Waterfall case studies show $h=1$ driven by instantaneous $PM_{{2.5}}$, while $h=5$ is governed by seasonal `day_of_year_cos` (`outputs/shap_family_importance.png`).
 - **Speaker Notes**:
   - [TODO: me]

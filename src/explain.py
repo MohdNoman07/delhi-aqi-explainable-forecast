@@ -118,16 +118,16 @@ def explain_horizons(test_df, feature_cols, models, horizons=(1, 3, 5), sample_s
         plt.close()
         print(f"Saved bar importance plot to {bar_path}")
 
-        # 3. Family grouping
-        mean_abs_per_feature = np.mean(np.abs(sv.values), axis=0)
-        fam_sums = {fam: 0.0 for fam in FEATURE_FAMILIES.keys()}
-        for f_idx, f_name in enumerate(feature_cols):
-            fam = feature_to_family[f_name]
-            fam_sums[fam] += float(mean_abs_per_feature[f_idx])
+        # 3. Family grouping: per family, mean of absolute row-sum of SHAP values across family columns
+        fam_vals = {}
+        for fam, feats in FEATURE_FAMILIES.items():
+            idx = [feature_cols.index(f) for f in feats if f in feature_cols]
+            val = float(np.abs(sv.values[:, idx].sum(axis=1)).mean())
+            fam_vals[fam] = val
 
-        total_fam_sum = sum(fam_sums.values())
-        for fam, val in fam_sums.items():
-            share_pct = (val / total_fam_sum * 100.0) if total_fam_sum > 0 else 0.0
+        total_fam_val = sum(fam_vals.values())
+        for fam, val in fam_vals.items():
+            share_pct = (val / total_fam_val * 100.0) if total_fam_val > 0 else 0.0
             family_records.append({
                 "horizon": h,
                 "family": fam,
@@ -286,8 +286,8 @@ def write_shap_notes(df_families, wf_df):
         a(f"| h={r['horizon']} | {r['family']} | {r['mean_abs_shap']:.2f} | {r['share_pct']:.1f}% |")
     a("")
     a("### Figure Interpretation: `outputs/shap_family_importance.png` (Stacked Bar Chart)")
-    a("> The stacked bar chart shows that Pollutants and AQI history account for the largest share of attribution at horizon h=1 (86.6% combined), but their combined share declines to 57.9% by horizon h=5.")
-    a("> Conversely, Calendar features (representing seasonal day-of-year cycles) increase their share from 4.7% at h=1 to 31.8% at h=5; the model's attribution shifts from daily readings toward calendar features as the horizon grows.")
+    a("> The stacked bar chart shows that Pollutants and AQI history account for the largest share of attribution at horizon h=1 (~90.3% combined), but their combined share declines to ~61.5% by horizon h=5.")
+    a("> Conversely, Calendar features (representing seasonal day-of-year cycles) increase their share from ~3.8% at h=1 to ~30.7% at h=5; the model's attribution shifts from daily readings toward calendar features as the horizon grows.")
     a("")
     a("---")
     a("")

@@ -87,12 +87,12 @@ def load_resources():
         ci_df = pd.read_csv(ci_path).set_index("horizon")
         for h in range(1, 6):
             if h in ci_df.index and bool(ci_df.loc[h, "includes_zero"]):
-                ci_notes[h] = "at this horizon the model is statistically indistinguishable from a seasonal average"
+                ci_notes[h] = "at this horizon the model is statistically indistinguishable from the best baseline"
 
     return feature_cols, models, typical_maes, ci_notes
 
 
-def run_prediction(date_str: str):
+def run_prediction(date_str: str, out_dir: Path | str | None = None) -> pd.DataFrame:
     """Generates 1 to 5 day forecasts for date_str."""
     daily_path = REPO_ROOT / "data" / "processed" / "clean_daily.csv"
     if not daily_path.exists():
@@ -176,17 +176,17 @@ def run_prediction(date_str: str):
     print("=" * 95)
 
     # ── Save Outputs ────────────────────────────────────────────────────────────
-    out_dir = REPO_ROOT / "outputs"
-    out_dir.mkdir(parents=True, exist_ok=True)
+    target_out_dir = Path(out_dir) if out_dir is not None else (REPO_ROOT / "outputs")
+    target_out_dir.mkdir(parents=True, exist_ok=True)
 
     # 1. Save CSV
-    out_csv = out_dir / f"forecast_{date_str_fmt}.csv"
+    out_csv = target_out_dir / f"forecast_{date_str_fmt}.csv"
     save_cols = ["horizon", "forecast_date", "target_date", "predicted_aqi", "category", "typical_mae", "actual_aqi", "advisory", "note"]
     df_fc[save_cols].to_csv(out_csv, index=False)
     print(f"\nSaved forecast table to {out_csv}")
 
     # 2. Save PNG Plot (14 days past actuals + 5 days forecast)
-    plot_forecast(daily_df, t_dt, df_fc, out_dir / f"forecast_{date_str_fmt}.png")
+    plot_forecast(daily_df, t_dt, df_fc, target_out_dir / f"forecast_{date_str_fmt}.png")
 
     return df_fc
 

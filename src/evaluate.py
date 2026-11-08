@@ -175,12 +175,26 @@ def skill_vs_persistence(mae_model: float, mae_persistence: float) -> float:
     return float(1.0 - (mae_model / mae_persistence))
 
 
-def skill_vs_best_baseline(mae_model: float, mae_persistence: float, mae_climatology: float) -> float:
+def skill_vs_best_baseline(mae_model: float, *args, mae_best_baseline: float | None = None, mae_persistence: float | None = None, mae_climatology: float | None = None) -> float:
     """
-    Computes fractional skill score relative to the best baseline (min of persistence and climatology):
-    1 - MAE_model / min(MAE_persistence, MAE_climatology).
+    Computes fractional skill score relative to the best baseline:
+    1 - MAE_model / MAE_best_baseline.
+    Supports either:
+      skill_vs_best_baseline(mae_model, best_baseline_mae)
+    or legacy 3-arg call:
+      skill_vs_best_baseline(mae_model, mae_persistence, mae_climatology)
     """
-    best_base = min(mae_persistence, mae_climatology)
+    if mae_persistence is not None and mae_climatology is not None:
+        best_base = min(mae_persistence, mae_climatology)
+    elif mae_best_baseline is not None:
+        best_base = mae_best_baseline
+    elif len(args) == 1:
+        best_base = args[0]
+    elif len(args) >= 2:
+        best_base = min(args)
+    else:
+        raise ValueError("Must provide baseline MAE")
+
     if best_base == 0.0:
         return 0.0
     return float(1.0 - (mae_model / best_base))

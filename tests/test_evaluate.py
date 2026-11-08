@@ -111,3 +111,62 @@ def test_per_class_report():
     assert set(rep["category"]) == {"Good", "Satisfactory", "Moderate", "Poor", "Very Poor", "Severe"}
     assert all(rep["support"] == 1)
     assert all(rep["f1"] == 1.0)
+
+
+def test_damped_persistence_rho0_equals_climatology():
+    """Verify that when rho=0, damped anomaly persistence predictions equal climatology."""
+    import pandas as pd
+    from src.train import compute_damped_persistence
+
+    dates = pd.date_range("2020-01-01", periods=30)
+    clim_map = {d: 120.0 for d in range(365)}
+
+    # When target equals climatology, target anomaly is 0 -> rho = 0
+    train_df = pd.DataFrame({
+        "date": dates.strftime("%Y-%m-%d"),
+        "aqi": np.linspace(80.0, 160.0, 30),
+        "target_h1": np.full(30, 120.0)  # equals climatology, so target anomaly is identically 0
+    })
+    eval_df = pd.DataFrame({
+        "date": pd.date_range("2021-01-01", periods=10).strftime("%Y-%m-%d"),
+        "aqi": np.linspace(50.0, 300.0, 10)
+    })
+
+    pred, rho = compute_damped_persistence(train_df, eval_df, clim_map, h=1)
+    assert rho == pytest.approx(0.0)
+
+    # With rho=0, predictions must equal climatology for target dates (120.0)
+    expected_clim = np.full(10, 120.0)
+    np.testing.assert_allclose(pred, expected_clim)
+
+
+def test_damped_persistence_no_test_dates_in_fit():
+    """Verify that the fit uses only the dates it is given (no test dates in the fit)."""
+    import pandas as pd
+    from src.train import compute_damped_persistence
+
+    dates_train = pd.date_range("2020-01-01", periods=40)
+    train_df = pd.DataFrame({
+        "date": dates_train.strftime("%Y-%m-%d"),
+        "aqi": np.sin(np.linspace(0, 5, 40)) * 50 + 150,
+        "target_h1": np.sin(np.linspace(0.1, 5.1, 40)) * 50 + 150
+    })
+    clim_map = {d: 150.0 for d in range(365)}
+
+    # Eval dataset 1
+    eval_df1 = pd.DataFrame({
+        "date": pd.date_range("2021-01-01", periods=15).strftime("%Y-%m-%d"),
+        "aqi": np.full(15, 200.0)
+    })
+    pred1, rho1 = compute_damped_persistence(train_df, eval_df1, clim_map, h=1)
+
+    # Eval dataset 2 with completely different dates and AQI
+    eval_df2 = pd.DataFrame({
+        "date": pd.date_range("2025-06-01", periods=20).strftime("%Y-%m-%d"),
+        "aqi": np.full(20, 50.0)
+    })
+    pred2, rho2 = compute_damped_persistence(train_df, eval_df2, clim_map, h=1)
+
+    # rho must be strictly identical regardless of eval_df
+    assert rho1 == pytest.approx(rho2)
+    assert rho1 != 0.0

@@ -1,4 +1,6 @@
 data/raw/
+data/processed/raw_filtered.parquet
+scratch/
 .venv*/
 venv/
 __pycache__/

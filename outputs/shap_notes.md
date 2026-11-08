@@ -11,22 +11,22 @@ SHAP (SHapley Additive exPlanations) values computed on test set features (`mode
 
 | Horizon | Family | Total Mean |SHAP| (AQI Points) | Share of Total (%) |
 |:---:|:---|:---:|:---:|
-| h=1 | AQI history | 30.94 | 26.1% |
-| h=1 | Pollutants | 71.80 | 60.5% |
-| h=1 | Weather | 10.31 | 8.7% |
-| h=1 | Calendar | 5.54 | 4.7% |
-| h=3 | AQI history | 32.08 | 26.9% |
-| h=3 | Pollutants | 48.44 | 40.6% |
-| h=3 | Weather | 13.67 | 11.5% |
-| h=3 | Calendar | 24.97 | 21.0% |
-| h=5 | AQI history | 26.96 | 23.1% |
-| h=5 | Pollutants | 40.77 | 34.9% |
-| h=5 | Weather | 12.03 | 10.3% |
-| h=5 | Calendar | 37.16 | 31.8% |
+| h=1 | AQI history | 27.96 | 28.7% |
+| h=1 | Pollutants | 59.92 | 61.6% |
+| h=1 | Weather | 5.66 | 5.8% |
+| h=1 | Calendar | 3.73 | 3.8% |
+| h=3 | AQI history | 28.79 | 30.5% |
+| h=3 | Pollutants | 38.63 | 40.9% |
+| h=3 | Weather | 8.26 | 8.8% |
+| h=3 | Calendar | 18.65 | 19.8% |
+| h=5 | AQI history | 23.99 | 25.8% |
+| h=5 | Pollutants | 33.13 | 35.7% |
+| h=5 | Weather | 7.25 | 7.8% |
+| h=5 | Calendar | 28.54 | 30.7% |
 
 ### Figure Interpretation: `outputs/shap_family_importance.png` (Stacked Bar Chart)
-> The stacked bar chart shows that Pollutants and AQI history account for the largest share of attribution at horizon h=1 (86.6% combined), but their combined share declines to 57.9% by horizon h=5.
-> Conversely, Calendar features (representing seasonal day-of-year cycles) increase their share from 4.7% at h=1 to 31.8% at h=5; the model's attribution shifts from daily readings toward calendar features as the horizon grows.
+> The stacked bar chart shows that Pollutants and AQI history account for the largest share of attribution at horizon h=1 (~90.3% combined), but their combined share declines to ~61.5% by horizon h=5.
+> Conversely, Calendar features (representing seasonal day-of-year cycles) increase their share from ~3.8% at h=1 to ~30.7% at h=5; the model's attribution shifts from daily readings toward calendar features as the horizon grows.
 
 ---
 
@@ -70,4 +70,4 @@ Evaluation of individual predictions on Severe winter test days (truth > 400 AQI
 > For the 5-day forecast on 2025-10-16 targeting 2025-10-21: forecast 2025-10-16, target 2025-10-21, actual 454.7, predicted 275.9, error 178.7. This bad case is the Severe winter day with the largest error, representing a worst case rather than a typical one.
 
 ---
-*Report generated: 2026-11-08 20:06:32*
+*Report generated: 2026-11-08 23:51:49*

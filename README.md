@@ -27,19 +27,19 @@ The system predicts city-wide CPCB-style NAQI from 1 to 5 days ahead ($h=1..5$) 
   - Hyperparameter tuning conducted on Train only via 4-fold expanding-window `TimeSeriesSplit(n_splits=4, gap=5)`.
 
 - **Holdout Test Performance ($N=887$, 2024–2026)**:
-  - *Best baseline definition*: The "best baseline" is defined as the better of Persistence and Climatology for each horizon (Ridge is a model, not a baseline). At $h=1$, the best baseline is Persistence (MAE 30.97); at $h=2..5$, the best baseline is Climatology (MAE 40.43 to 40.53).
-  - **Horizon $h=1$**: Random Forest achieves **MAE 27.57** (vs Persistence 30.97, Ridge 28.49, Climatology 40.37), **RMSE 38.84**, **$R^2$ 0.876**, **Skill vs Best Baseline +11.0%**. Comparing models at $h=1$, RF achieves MAE 27.57 vs Ridge 28.49 (Δ MAE = -0.92, 95% block-bootstrap CI [-1.87, -0.03]), which just excludes zero.
-  - **Horizon $h=2$**: Random Forest achieves **MAE 36.34** (vs Climatology 40.43, Ridge 37.01, Persistence 42.57), **Skill vs Best Baseline +10.1%**. Paired 95% block-bootstrap CI for RF vs Climatology is `[-6.26, -1.98]` (RF clearly better).
-  - **Horizons $h=3..5$**: Random Forest achieves MAE 38.75 ($h=3$), 40.26 ($h=4$), and 41.48 ($h=5$). Paired bootstrap CIs with Climatology include zero (`[-3.97, +0.18]`, `[-2.42, +1.66]`, and `[-0.92, +2.76]`); the model's long-range skill is statistically indistinguishable from seasonal climatology.
-  - **High-Pollution Alert Detection ($	ext{AQI} > 200$)**:
+  - *Best baseline definition*: The "best baseline" is chosen per horizon based on validation MAE among {Persistence, Climatology, Damped Anomaly Persistence} (`models/best_baseline.json`). Damped Anomaly Persistence achieves the lowest validation MAE across all five horizons ($h=1..5$). (Ridge is a model, not a baseline). All evaluations involving Damped Anomaly Persistence are post-hoc diagnostics.
+  - **Horizon $h=1$**: Random Forest achieves **MAE 27.57** (vs Damped Anomaly Persistence 28.90, Ridge 28.49, Persistence 30.97, Climatology 40.37), **RMSE 38.84**, **$R^2$ 0.876**, **Skill vs Best Baseline +4.6%** (95% block CI `[-2.18, -0.48]`, RF clearly better). Comparing models at $h=1$, RF achieves MAE 27.57 vs Ridge 28.49 (Δ MAE = -0.92, 95% block-bootstrap CI [-1.87, -0.03]), which just excludes zero.
+  - **Horizon $h=2$**: Random Forest achieves **MAE 36.34** (vs Damped Anomaly Persistence 36.25, Ridge 37.01, Climatology 40.43, Persistence 42.57), **Skill vs Best Baseline -0.3%**. Paired 95% block-bootstrap CI for RF vs best baseline is `[-1.05, +1.22]` (includes zero).
+  - **Horizons $h=3..5$**: Random Forest achieves MAE 38.75 ($h=3$), 40.26 ($h=4$), and 41.48 ($h=5$) vs Damped Anomaly Persistence 38.20 ($h=3$), 39.33 ($h=4$), and 39.79 ($h=5$). Paired bootstrap CIs with the best baseline include zero at $h=3,4$ (`[-1.07, +2.08]`, `[-0.88, +2.54]`), while at $h=5$ the CI `[+0.04, +3.22]` excludes zero with Damped Anomaly Persistence outperforming Random Forest.
+  - **High-Pollution Alert Detection ($\text{AQI} > 200$)**:
     - Compared to the trivial seasonal rule ("alert on every winter day, never in non-winter"):
-      - *Alert Precision*: Random Forest ties the trivial rule at $h=2$ (0.821 vs 0.821) and falls strictly below the trivial rule at horizons **$h=3, 4, 5$** (0.809, 0.781, and 0.761 vs 0.821).
-      - *Alert Recall*: Random Forest exceeds the trivial rule across all five horizons (0.870 down to 0.764 vs 0.746 to 0.752) due to detecting non-winter alerts (12.0% to 51.2% recall) where the trivial rule catches zero. At day +4, Random Forest alert recall is 0.752 vs 0.749 for the trivial rule, and at day +5 it is 0.764 vs 0.752. In plain words, at days 3 to 5 Random Forest has no demonstrated advantage over the trivial winter rule (lower precision, recall gap within about one point, no interval computed).
+      - *Alert Precision*: Random Forest ties the trivial rule at $h=2$ (0.821 vs 0.821) and falls strictly below the trivial rule at horizons **$h=3, 4, 5$** (0.809, 0.781, and 0.761 vs 0.821; 95% block CI at $h=5$ is `[-0.137, +0.013]`).
+      - *Alert Recall*: Random Forest exceeds the trivial rule across all five horizons (0.870 down to 0.764 vs 0.746 to 0.752) due to detecting non-winter alerts (12.0% to 51.2% recall) where the trivial rule catches zero. At day +4, Random Forest alert recall is 0.752 vs 0.749 for the trivial rule, and at day +5 it is 0.764 vs 0.752 (95% block CI `[-0.030, +0.053]`, spanning zero). In plain words, at days 3 to 5 Random Forest has no demonstrated advantage over the trivial winter rule (lower precision, recall gap within about one point with confidence interval including zero).
 
 - **Diagnostic & Attribution Insights**:
   - **Winter vs Non-Winter Split**: Alert base rate is 81.8% in winter vs 14.0% in non-winter. In winter, RF achieves 91.8% precision and 99.2% recall ($h=1$). In non-winter, RF detects 51.2% ($h=1$) and 38.6% ($h=2$) of alert episodes where the trivial rule catches 0%.
   - **Diwali Proximity**: Among the 10 worst prediction errors per horizon (50 total worst-day observations), exactly 4 occur within the window from 1 day before to 3 days after Diwali. All 4 correspond to the single target day `2025-10-21` (evaluated at horizons $h=2..5$); 46 worst error observations fall outside the Diwali window.
-  - **SHAP Attribution Dynamics**: Pollutants and AQI history account for 86.6% of attribution at $h=1$, declining to 57.9% at $h=5$. Calendar features surge from 4.7% at $h=1$ to 31.8% at $h=5$; the model's attribution shifts from daily readings toward calendar features as the horizon grows.
+  - **SHAP Attribution Dynamics**: Pollutants and AQI history account for 90.3% of attribution at $h=1$, declining to 61.5% at $h=5$. Calendar features shift from 3.8% at $h=1$ to 30.7% at $h=5$; the model's attribution shifts from daily readings toward calendar features as the horizon grows.
 
 ---
 
@@ -49,40 +49,47 @@ Evaluated on 887 holdout test days (`2024-04-06` to `2026-09-25`) after refittin
 
 ### Primary Model Performance Across Horizons ($h=1..5$)
 
-| Horizon | Model | MAE | RMSE | R² | Mean Bias | Within-1 Accuracy | Alert Precision | Alert Recall | Skill vs Best Baseline |
+| Horizon | Model | MAE | RMSE | R² | Mean Bias | Exact Accuracy | Alert Precision | Alert Recall | Skill vs Best Baseline |
 |:---:|:---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
-| Day +1 | Persistence | 30.97 | 44.60 | 0.836 | +0.15 | 98.3% | 0.852 | 0.852 | 0.000 (ref) |
-| Day +1 | Climatology | 40.37 | 54.23 | 0.757 | +8.46 | 97.1% | 0.819 | 0.779 | -0.303 |
-| Day +1 | Ridge | 28.49 | 39.11 | 0.874 | -2.46 | 99.3% | 0.858 | 0.858 | +0.080 |
-| Day +1 | **Random Forest** | 27.57 | 38.84 | 0.876 | +3.02 | 99.0% | 0.842 | 0.870 | +0.110 |
-| Day +2 | Persistence | 42.57 | 59.31 | 0.710 | +0.34 | 95.8% | 0.789 | 0.789 | -0.053 |
-| Day +2 | Climatology | 40.43 | 54.28 | 0.758 | +8.56 | 97.0% | 0.819 | 0.779 | 0.000 (ref) |
-| Day +2 | Ridge | 37.01 | 49.95 | 0.795 | -5.24 | 98.1% | 0.842 | 0.819 | +0.084 |
-| Day +2 | **Random Forest** | 36.34 | 49.29 | 0.800 | +2.02 | 98.2% | 0.821 | 0.831 | +0.101 |
-| Day +3 | Persistence | 47.25 | 64.95 | 0.654 | +0.53 | 94.6% | 0.764 | 0.764 | -0.166 |
-| Day +3 | Climatology | 40.52 | 54.34 | 0.758 | +8.66 | 96.8% | 0.819 | 0.779 | 0.000 (ref) |
-| Day +3 | Ridge | 39.71 | 53.56 | 0.764 | -7.67 | 97.6% | 0.833 | 0.770 | +0.020 |
-| Day +3 | **Random Forest** | 38.75 | 52.80 | 0.771 | +1.34 | 97.6% | 0.809 | 0.779 | +0.044 |
-| Day +4 | Persistence | 49.81 | 68.30 | 0.618 | +0.66 | 94.1% | 0.749 | 0.749 | -0.229 |
-| Day +4 | Climatology | 40.53 | 54.34 | 0.758 | +8.70 | 96.8% | 0.819 | 0.779 | 0.000 (ref) |
-| Day +4 | Ridge | 40.09 | 54.52 | 0.756 | -4.31 | 97.3% | 0.825 | 0.770 | +0.011 |
-| Day +4 | **Random Forest** | 40.26 | 54.35 | 0.758 | +3.02 | 97.1% | 0.781 | 0.752 | +0.007 |
-| Day +5 | Persistence | 52.61 | 70.62 | 0.591 | +0.79 | 93.8% | 0.734 | 0.736 | -0.299 |
-| Day +5 | Climatology | 40.49 | 54.32 | 0.758 | +8.74 | 96.8% | 0.819 | 0.782 | 0.000 (ref) |
-| Day +5 | Ridge | 40.99 | 55.70 | 0.746 | -0.54 | 97.0% | 0.799 | 0.770 | -0.012 |
-| Day +5 | **Random Forest** | 41.48 | 55.72 | 0.746 | +5.28 | 97.0% | 0.761 | 0.764 | -0.024 |
+| Day +1 | Persistence | 30.97 | 44.60 | 0.836 | +0.15 | 69.3% | 0.852 | 0.852 | -0.072 |
+| Day +1 | Climatology | 40.37 | 54.23 | 0.757 | +8.46 | 60.8% | 0.819 | 0.779 | -0.397 |
+| Day +1 | Damped Anomaly Persistence | 28.90 | 40.70 | 0.863 | +3.05 | 71.3% | 0.853 | 0.861 | 0.000 (ref) |
+| Day +1 | Ridge | 28.49 | 39.11 | 0.874 | -2.46 | 69.3% | 0.858 | 0.858 | +0.014 |
+| Day +1 | **Random Forest** | 27.57 | 38.84 | 0.876 | +3.02 | 71.0% | 0.842 | 0.870 | +0.046 |
+| Day +2 | Persistence | 42.57 | 59.31 | 0.710 | +0.34 | 61.0% | 0.789 | 0.789 | -0.174 |
+| Day +2 | Climatology | 40.43 | 54.28 | 0.758 | +8.56 | 60.7% | 0.819 | 0.779 | -0.115 |
+| Day +2 | Damped Anomaly Persistence | 36.25 | 49.76 | 0.796 | +5.37 | 65.1% | 0.833 | 0.828 | 0.000 (ref) |
+| Day +2 | Ridge | 37.01 | 49.95 | 0.795 | -5.24 | 63.8% | 0.842 | 0.819 | -0.021 |
+| Day +2 | **Random Forest** | 36.34 | 49.29 | 0.800 | +2.02 | 64.9% | 0.821 | 0.831 | -0.003 |
+| Day +3 | Persistence | 47.25 | 64.95 | 0.654 | +0.53 | 56.5% | 0.764 | 0.764 | -0.237 |
+| Day +3 | Climatology | 40.52 | 54.34 | 0.758 | +8.66 | 60.7% | 0.819 | 0.779 | -0.061 |
+| Day +3 | Damped Anomaly Persistence | 38.20 | 52.20 | 0.776 | +6.59 | 62.9% | 0.833 | 0.813 | 0.000 (ref) |
+| Day +3 | Ridge | 39.71 | 53.56 | 0.764 | -7.67 | 59.9% | 0.833 | 0.770 | -0.040 |
+| Day +3 | **Random Forest** | 38.75 | 52.80 | 0.771 | +1.34 | 61.2% | 0.809 | 0.779 | -0.014 |
+| Day +4 | Persistence | 49.81 | 68.30 | 0.618 | +0.66 | 53.8% | 0.749 | 0.749 | -0.266 |
+| Day +4 | Climatology | 40.53 | 54.34 | 0.758 | +8.70 | 60.5% | 0.819 | 0.779 | -0.031 |
+| Day +4 | Damped Anomaly Persistence | 39.33 | 53.23 | 0.768 | +7.30 | 61.2% | 0.815 | 0.785 | 0.000 (ref) |
+| Day +4 | Ridge | 40.09 | 54.52 | 0.756 | -4.31 | 61.8% | 0.825 | 0.770 | -0.019 |
+| Day +4 | **Random Forest** | 40.26 | 54.35 | 0.758 | +3.02 | 59.8% | 0.781 | 0.752 | -0.024 |
+| Day +5 | Persistence | 52.61 | 70.62 | 0.591 | +0.79 | 52.4% | 0.734 | 0.736 | -0.322 |
+| Day +5 | Climatology | 40.49 | 54.32 | 0.758 | +8.74 | 60.5% | 0.819 | 0.782 | -0.018 |
+| Day +5 | Damped Anomaly Persistence | 39.79 | 53.72 | 0.764 | +7.72 | 60.9% | 0.823 | 0.776 | 0.000 (ref) |
+| Day +5 | Ridge | 40.99 | 55.70 | 0.746 | -0.54 | 60.8% | 0.799 | 0.770 | -0.030 |
+| Day +5 | **Random Forest** | 41.48 | 55.72 | 0.746 | +5.28 | 58.9% | 0.761 | 0.764 | -0.042 |
+
+*Note*: $R^2$ mostly reflects the seasonal cycle (Climatology alone achieves $R^2 pprox 0.76$). All evaluations involving Damped Anomaly Persistence are post-hoc diagnostics.
 
 ### Paired Comparisons & 95% Block-Bootstrap Confidence Intervals
 
-Paired differences in daily absolute error (7-day blocks, 2,000 resamples, seed 42):
+Paired differences in daily absolute error (7-day blocks, 2,000 resamples, seed 42). A block-size sensitivity analysis across 7, 14, 21, and 30 days (`outputs/bootstrap_block_sensitivity.csv`) confirms that Random Forest's advantage over the best baseline at Day +1 is robust to block definition, while intervals at Days 2 to 4 span zero across all block sizes:
 
 | Horizon | Random Forest MAE | Best Baseline | Baseline MAE | Δ MAE (RF - Baseline) [95% CI] | Ridge MAE | Δ MAE (RF - Ridge) [95% CI] |
 |:---:|:---:|:---|:---:|:---:|:---:|:---:|
-| Day +1 | 27.57 | Persistence | 30.97 | -3.41 [-4.54, -2.30] | 28.49 | -0.92 [-1.87, -0.03] |
-| Day +2 | 36.34 | Climatology | 40.43 | -4.09 [-6.26, -1.98] | 37.01 | -0.67 [-2.06, +0.61] |
-| Day +3 | 38.75 | Climatology | 40.52 | -1.78 [-3.97, +0.18] | 39.71 | -0.96 [-2.86, +0.81] |
-| Day +4 | 40.26 | Climatology | 40.53 | -0.27 [-2.42, +1.66] | 40.09 | +0.16 [-1.80, +1.95] |
-| Day +5 | 41.48 | Climatology | 40.49 | +0.99 [-0.92, +2.76] | 40.99 | +0.49 [-1.60, +2.50] |
+| Day +1 | 27.57 | Damped Anomaly Persistence | 28.90 | -1.33 [-2.18, -0.48] | 28.49 | -0.92 [-1.87, -0.03] |
+| Day +2 | 36.34 | Damped Anomaly Persistence | 36.25 | +0.10 [-1.05, +1.22] | 37.01 | -0.67 [-2.06, +0.61] |
+| Day +3 | 38.75 | Damped Anomaly Persistence | 38.20 | +0.55 [-1.07, +2.08] | 39.71 | -0.96 [-2.86, +0.81] |
+| Day +4 | 40.26 | Damped Anomaly Persistence | 39.33 | +0.93 [-0.88, +2.54] | 40.09 | +0.16 [-1.80, +1.95] |
+| Day +5 | 41.48 | Damped Anomaly Persistence | 39.79 | +1.69 [+0.04, +3.22] | 40.99 | +0.49 [-1.60, +2.50] |
 
 ### Full Test Set Alert Detection Benchmark (Random Forest vs Trivial Seasonal Rule)
 
@@ -98,7 +105,7 @@ Across all 887 test days (alert base rate = 37.3%), comparison of Random Forest 
 
 - **Horizons where Random Forest is at or below the trivial rule**:
   - **Alert Precision**: Random Forest ties the trivial rule at horizon $h=2$ (0.821 vs 0.821) and falls strictly below the trivial rule at horizons **$h=3, h=4$, and $h=5$** (0.809, 0.781, and 0.761 vs 0.821).
-  - **Alert Recall**: Random Forest exceeds the trivial rule across all five horizons on the full test set (0.870 down to 0.764 vs 0.746 to 0.752) due to detecting non-winter alerts (12.0% to 51.2% recall) where the trivial rule catches zero. At day +4, Random Forest alert recall is 0.752 vs 0.749 for the trivial rule, and at day +5 it is 0.764 vs 0.752. In plain words, at days 3 to 5 Random Forest has no demonstrated advantage over the trivial winter rule (lower precision, recall gap within about one point, no interval computed).
+  - **Alert Recall**: Random Forest exceeds the trivial rule across all five horizons on the full test set (0.870 down to 0.764 vs 0.746 to 0.752) due to detecting non-winter alerts (12.0% to 51.2% recall) where the trivial rule catches zero. At day +4, Random Forest alert recall is 0.752 vs 0.749 for the trivial rule, and at day +5 it is 0.764 vs 0.752. In plain words, at days 3 to 5 Random Forest has no demonstrated advantage over the trivial winter rule (lower precision: 95% block-bootstrap CI [-0.137, +0.013] at h=5; recall gap within about one point: 95% block-bootstrap CI [-0.030, +0.053] at h=5, spanning zero).
 
 ### Chronological Train / Validation / Test Partitions
 
@@ -122,6 +129,7 @@ Across all 887 test days (alert base rate = 37.3%), comparison of Random Forest 
   3. Ensure `data/raw/` contains the 37 monitoring station CSV files covering 2018–2026.
 - **Repository Note**: Raw data files are not committed to this repository due to size.
 - **Licence Terms**: Licence terms are available on the Kaggle dataset page and have not been independently verified.
+- **Git Hygiene**: If this is managed as a git repo, run `git rm --cached data/processed/raw_filtered.parquet` and perform a history-rewrite if desired to keep the repository history compact.
 
 ---
 
@@ -130,8 +138,8 @@ Across all 887 test days (alert base rate = 37.3%), comparison of Random Forest 
 The project is developed and verified under Python 3.13.15.
 
 ```bash
-# 1. Clone the repository and navigate to root
-cd delhi-aqi-forecasting
+# 1. Navigate to the project root directory
+cd <project-root>
 
 # 2. Create and activate a virtual environment
 python -m venv .venv
@@ -208,14 +216,18 @@ Saved forecast figure to outputs/forecast_2026-09-30.png
 ## 6. Repository Architecture & Directory Structure
 
 ```
-delhi-aqi-forecasting/
+. (project-root)
 ├── data/
 │   ├── raw/                           # Raw CPCB station CSVs (2010–2026) and data dictionary
 │   └── processed/
 │       ├── clean_hourly.parquet       # Cleaned, standardized, interpolated hourly grid (76,680 rows)
 │       ├── clean_daily.csv            # City-wide 24h daily aggregates and clipped AQI (3,195 rows)
 │       └── model_ready.csv            # 38 features and 5 forward targets without NaNs (3,136 rows)
-├── models/
+├── docs/                              # Project documentation, full technical report draft, and tracked numbers
+│   ├── numbers_used.csv               # Every single tracked metric and parameter with source provenance
+│   ├── report_draft.md                # 11-section publication-ready technical methodology report
+│   └── slides_outline.md              # 12-slide executive presentation outline
+├── models/                            # Serialized models (scikit-learn 1.9.1 / Python 3.13 pickle compatibility)
 │   ├── feature_columns.json           # Exact list of 38 engineered feature names
 │   ├── rf_config.json                 # Optimal hyperparameters and target scale per horizon
 │   ├── climatology_train_val.json     # Climatology lookup table fit on Train + Validation
@@ -243,6 +255,7 @@ delhi-aqi-forecasting/
 │   ├── shap_waterfall_*.png           # Single-instance waterfall attribution case studies
 │   ├── forecast_*.csv                 # Inference forecast CSV tables
 │   └── forecast_*.png                 # Inference forecast and historical trajectory charts
+├── scratch/                           # One-off audit scripts, verification tools, and build helpers (untracked)
 ├── src/
 │   ├── config.py                      # Column mappings, physical caps, breakpoints, split dates, random seed
 │   ├── load_raw.py                    # Ingests raw station CSVs, filters 2018–2026, logs row counts
@@ -267,7 +280,7 @@ delhi-aqi-forecasting/
 │   ├── test_shap.py                   # Unit tests verifying SHAP additivity (preds == base + sum(SHAP))
 │   └── test_predict.py                # Unit tests verifying CLI prediction exact match against test set
 ├── requirements.txt                   # Pinned dependency specifications from working environment
-├── pytest.ini                         # Pytest test path configuration
+├── pytest.ini                         # Pytest test path configuration (pythonpath = .)
 └── PROJECT_NOTES.md                   # Mandatory rules, run logs, verified numbers, and project history
 ```
 
@@ -335,7 +348,7 @@ The daily Air Quality Index follows the Central Pollution Control Board (CPCB) N
 ## 9. Mandatory Project Rules
 
 1. **Column Mapping**: Never assume column names or units; use `COLUMN_MAP` in `src/config.py`. Output pressure unit is standardized to `hPa`.
-2. **Chronological Splitting**: Never shuffle time series data. Use chronological splits separated by 5-day buffer gaps. Holdout test set is evaluated strictly once.
+2. **Chronological Splitting**: Never shuffle time series data. Use chronological splits separated by 5-day buffer gaps. Headline metrics were computed once by final_evaluate.py; later diagnostics (alert comparison vs the trivial seasonal rule, Diwali analysis, error analysis) were exploratory and post-hoc.
 3. **Leakage Controls with Automated Tests**: Features use only information available up to the end of today ($t' \le t$). Rolling windows are strictly trailing (`center=False`). No negative shifts allowed in features.
 4. **Independent Fitting**: Imputers, scalers, and climatology tables are fit on training data only.
 5. **Fixed Random Seed**: Deterministic execution enforced across all models and splits using `RANDOM_SEED = 42`.
@@ -362,7 +375,7 @@ To execute the test suite:
 ```bash
 pytest
 ```
-*Current test result: 28 passed, 1 warning (R² on single sample edge test) across 7 test files.*
+*Current test result: 31 passed, 1 warning (R² on single sample edge test) across 7 test files.*
 
 ---
 
@@ -375,7 +388,8 @@ pytest
 5. **Data Missingness and August 2026 Gap**: 4 calendar days in 2018–2026 have missing daily AQI due to insufficient station coverage. In August 2026, exactly 71 hours have zero reporting stations for $PM_{2.5}$ (53 hours from Aug 14 to Aug 16, and 18 hours from Aug 18 to Aug 19; cause unknown).
 6. **Distribution Shift Across Split Periods**: High-pollution frequency differs between partitions: Poor-or-worse days represent 48.97% of Train (132 Severe days), 43.47% of Validation (25 Severe days), and 37.32% of Test (44 Severe days).
 7. **Geographic Specificity**: All models and spatial weights are tuned strictly to the National Capital Territory of Delhi and do not generalize to other urban airsheds without retraining.
-8. **Long-Range Model Skill ($h \ge 3$)**: While Random Forest provides statistically significant skill improvements at Day +1 (+11.0%) and Day +2 (+10.1%), beyond Day +2 the 95% block-bootstrap confidence intervals include zero, meaning tree model predictions become statistically indistinguishable from seasonal climatology.
+8. **Long-Range Model Skill ($h \ge 3$) and Damped Anomaly Baseline**: Random Forest achieves statistically significant skill improvements at Day +1 (+4.6% vs Damped Anomaly Persistence, 95% block CI `[-2.18, -0.48]`). Beyond Day +1, Random Forest does not demonstrate superior accuracy over the damped anomaly baseline: at Days 2 to 4 paired bootstrap CIs include zero, and at Day +5 the damped baseline outperforms Random Forest (MAE 39.79 vs 41.48, 95% CI `[+0.04, +3.22]`).
+9. **Retrospective Elements in Hourly Cleaning**: While daily features are strictly trailing ($t' \le t$, enforced by tests), hourly data cleaning is retrospective: (a) bounded linear interpolation uses the value after a gap ($\le 6$ hours), (b) the stuck-sensor filter blanks a whole consecutive run once it is known to last $\ge 24$ hours, and (c) station selection evaluates coverage over the full 2018–2026 period.
 
 ---
 

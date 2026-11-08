@@ -94,8 +94,8 @@
 ---
 
 ### Slide 10: SHAP Family Chart
-- **Bullet 1**: SHAP attribution reveals a systematic shift: at $h=1$, Pollutants (60.5%) + AQI history (26.1%) comprise 86.6% of attribution, with Calendar at 4.7%.
-- **Bullet 2**: The SHAP attribution shifts toward calendar features as the horizon grows: at $h=5$, Calendar features expand to 31.8% while Pollutants drop to 34.9%.
+- **Bullet 1**: SHAP attribution reveals a systematic shift: at $h=1$, Pollutants (61.6%) + AQI history (28.7%) comprise 90.3% of attribution, with Calendar at 3.8%.
+- **Bullet 2**: The SHAP attribution shifts toward calendar features as the horizon grows: at $h=5$, Calendar features expand to 30.7% while Pollutants drop to 35.7%.
 - **Bullet 3**: Waterfall case studies show $h=1$ driven by instantaneous $PM_{2.5}$, while $h=5$ is governed by seasonal `day_of_year_cos` (`outputs/shap_family_importance.png`).
 - **Speaker Notes**:
   - [TODO: me]

@@ -19,14 +19,14 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
     "2025-06-20",  # Non-winter date
     "2025-10-19",  # Diwali window date (Diwali was 2025-10-20)
 ])
-def test_predict_matches_saved_test_predictions(test_date):
+def test_predict_matches_saved_test_predictions(test_date, tmp_path):
     """Verifies predictions match Random Forest column of test_predictions.csv."""
     test_preds_path = REPO_ROOT / "outputs" / "test_predictions.csv"
     assert test_preds_path.exists(), f"{test_preds_path} not found"
     test_preds = pd.read_csv(test_preds_path)
 
-    # Run prediction pipeline
-    df_fc = run_prediction(test_date)
+    # Run prediction pipeline writing to isolated tmp_path
+    df_fc = run_prediction(test_date, out_dir=tmp_path)
 
     assert len(df_fc) == 5, f"Expected 5 forecast days, got {len(df_fc)}"
 
@@ -43,12 +43,12 @@ def test_predict_matches_saved_test_predictions(test_date):
         assert np.isclose(pred_val, expected_val, atol=1e-2), f"Prediction does not match saved test prediction for {test_date} h={h}"
 
 
-def test_predict_invalid_date_fails_gracefully():
+def test_predict_invalid_date_fails_gracefully(tmp_path):
     """Verifies that missing dates or dates with insufficient history raise ValueError."""
     # Date before history
     with pytest.raises(ValueError, match="Insufficient history"):
-        run_prediction("2018-01-02")
+        run_prediction("2018-01-02", out_dir=tmp_path)
 
     # Future date beyond clean_daily
     with pytest.raises(ValueError, match="beyond available daily data"):
-        run_prediction("2030-01-01")
+        run_prediction("2030-01-01", out_dir=tmp_path)

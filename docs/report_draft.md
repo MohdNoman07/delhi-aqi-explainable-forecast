@@ -236,7 +236,7 @@ Distribution of CPCB AQI health categories across partitions (`outputs/split_sum
 | **Severe** | 401 – 500 | 132 (7.00%) | 25 (7.10%) | 44 (4.96%) |
 | **Poor-or-worse (AQI > 200)** | > 200 | **924 (48.97%)** | **153 (43.47%)** | **331 (37.32%)** |
 
-> **Audit Note on Target Distribution**: The test period as having lower pollution levels than the training period is documented in the split summary without asserting a cause: Poor-or-worse days ($	ext{AQI} > 200$) accounted for 48.97% of the training set but 37.32% in the test holdout; Severe days accounted for 7.00% in training and 4.96% in the test holdout. Additionally, the validation set contained zero Good days and the test set contained only 6 Good days (0.68%), rendering single-class Good metrics statistically unreliable.
+> **Audit Note on Target Distribution**: The test period as having lower pollution levels than the training period is documented in the split summary without asserting a cause: Poor-or-worse days ($\text{AQI} > 200$) accounted for 48.97% of the training set but 37.32% in the test holdout; Severe days accounted for 7.00% in training and 4.96% in the test holdout. Additionally, the validation set contained zero Good days and the test set contained only 6 Good days (0.68%), rendering single-class Good metrics statistically unreliable.
 
 ### 5.3 Cross-Validation and Hyperparameter Tuning
 Hyperparameter optimization was conducted strictly on the training set using an expanding-window `TimeSeriesSplit(n_splits=4, gap=5)` (`src/config.py`).
@@ -480,22 +480,22 @@ Grouping features into four families (`outputs/shap_family_importance.csv`, `out
 
 | Horizon | Family | Mean Absolute SHAP (AQI Points) | Attribution Share (%) |
 |:---:|:---|:---:|:---:|
-| **$h=1$** | **Pollutants** | 71.8 | **60.5%** |
-| **$h=1$** | **AQI History** | 30.94 | **26.1%** |
-| **$h=1$** | **Weather** | 10.31 | **8.7%** |
-| **$h=1$** | **Calendar** | 5.54 | **4.7%** |
+| **$h=1$** | **Pollutants** | 59.92 | **61.6%** |
+| **$h=1$** | **AQI History** | 27.96 | **28.7%** |
+| **$h=1$** | **Weather** | 5.66 | **5.8%** |
+| **$h=1$** | **Calendar** | 3.73 | **3.8%** |
 |---|---|---|---|
-| **$h=3$** | **Pollutants** | 48.44 | **40.6%** |
-| **$h=3$** | **AQI History** | 32.08 | **26.9%** |
-| **$h=3$** | **Weather** | 13.67 | **11.5%** |
-| **$h=3$** | **Calendar** | 24.97 | **21.0%** |
+| **$h=3$** | **Pollutants** | 38.63 | **40.9%** |
+| **$h=3$** | **AQI History** | 28.79 | **30.5%** |
+| **$h=3$** | **Weather** | 8.26 | **8.8%** |
+| **$h=3$** | **Calendar** | 18.65 | **19.8%** |
 |---|---|---|---|
-| **$h=5$** | **Pollutants** | 40.77 | **34.9%** |
-| **$h=5$** | **AQI History** | 26.96 | **23.1%** |
-| **$h=5$** | **Weather** | 12.03 | **10.3%** |
-| **$h=5$** | **Calendar** | 37.16 | **31.8%** |
+| **$h=5$** | **Pollutants** | 33.13 | **35.7%** |
+| **$h=5$** | **AQI History** | 23.99 | **25.8%** |
+| **$h=5$** | **Weather** | 7.25 | **7.8%** |
+| **$h=5$** | **Calendar** | 28.54 | **30.7%** |
 
-> **Headline Interpretability Finding**: At $h=1$, Pollutants (60.5%) + AQI history (26.1%) comprise 86.6% of total attribution, while Calendar features comprise only 4.7%. By $h=5$, Calendar expands to 31.8% and Pollutants drop to 34.9%; the model's attribution shifts from daily readings toward calendar features as the horizon grows.
+> **Headline Interpretability Finding**: At $h=1$, Pollutants (61.6%) + AQI history (28.7%) comprise 90.3% of total attribution, while Calendar features comprise only 3.8%. By $h=5$, Calendar expands to 30.7% and Pollutants drop to 35.7%; the model's attribution shifts from daily readings toward calendar features as the horizon grows.
 
 ### 8.3 Beeswarm Summaries and Individual Feature Ranks
 1. **Horizon $h=1$** (`outputs/shap_summary_h1.png`, `outputs/shap_bar_h1.png`): Today's readings (`pm25`, `aqi`, `pm25_max`) display the highest mean absolute SHAP values. High surface wind speeds and negative `day_of_year_cos` values lower the forecast.
@@ -590,7 +590,7 @@ This project evaluated multi-horizon air quality forecasting in Delhi across eig
 1. **Early Horizon Skill**: The model improves on persistence and climatology at 1 to 2 days ahead, reducing 1-day MAE to 27.57 (11.0% skill over persistence) and 2-day MAE to 36.34 (10.1% skill over climatology).
 2. **Medium Horizon Convergence**: At 3 to 5 days it is statistically indistinguishable from climatology (intervals include zero) and from Ridge.
 3. **Alert Detection Benchmark**: At days 3 to 5 the alert detection is not better than the trivial rule "alert on every winter day"; at days 3 to 5 Random Forest has no demonstrated advantage over the trivial winter rule.
-4. **Explainability Horizon Shift**: The SHAP attribution shifts toward calendar features as the horizon grows (Pollutants and AQI history drop from 86.6% combined share at $h=1$ to 57.9% at $h=5$, while Calendar expands from 4.7% to 31.8%).
+4. **Explainability Horizon Shift**: The SHAP attribution shifts toward calendar features as the horizon grows (Pollutants and AQI history drop from 90.3% combined share at $h=1$ to 61.5% at $h=5$, while Calendar expands from 3.8% to 30.7%).
 
 ### 11.2 References
 1. Central Pollution Control Board (CPCB). *National Air Quality Index: Technical Report*, 2014.

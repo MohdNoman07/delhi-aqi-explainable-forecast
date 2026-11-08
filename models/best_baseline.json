@@ -1,0 +1,27 @@
+{
+  "1": {
+    "best_baseline_name": "Damped Anomaly Persistence",
+    "best_baseline_val_mae": 31.58040395181912,
+    "rho_h": 0.6501980970928961
+  },
+  "2": {
+    "best_baseline_name": "Damped Anomaly Persistence",
+    "best_baseline_val_mae": 39.429823054598415,
+    "rho_h": 0.37976776170778415
+  },
+  "3": {
+    "best_baseline_name": "Damped Anomaly Persistence",
+    "best_baseline_val_mae": 42.3631693225697,
+    "rho_h": 0.2449085301615423
+  },
+  "4": {
+    "best_baseline_name": "Damped Anomaly Persistence",
+    "best_baseline_val_mae": 43.235939611032656,
+    "rho_h": 0.16447870005518356
+  },
+  "5": {
+    "best_baseline_name": "Damped Anomaly Persistence",
+    "best_baseline_val_mae": 44.01332118323171,
+    "rho_h": 0.11604167977850247
+  }
+}
