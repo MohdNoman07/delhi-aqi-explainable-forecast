@@ -505,7 +505,7 @@ pytest
 6. **Distribution Shift Across Split Periods**: High-pollution frequency differs between partitions: Poor-or-worse days represent 48.97% of Train (132 Severe days), 43.47% of Validation (25 Severe days), and 37.32% of Test (44 Severe days).
 7. **Geographic Specificity**: All models and spatial weights are tuned strictly to the National Capital Territory of Delhi and do not generalize to other urban airsheds without retraining.
 8. **Long-Range Model Skill ($h \\ge 3$) and Damped Anomaly Baseline**: Random Forest achieves statistically significant skill improvements at Day +1 (+4.6% vs Damped Anomaly Persistence, 95% block CI `[-2.18, -0.48]`). Beyond Day +1, Random Forest does not demonstrate superior accuracy over the damped anomaly baseline: at Days 2 to 4 paired bootstrap CIs include zero, and at Day +5 the damped baseline outperforms Random Forest (MAE 39.79 vs 41.48, 95% CI `[+0.04, +3.22]`).
-9. **Retrospective Elements in Hourly Cleaning**: While daily features are strictly trailing ($t' \\le t$, enforced by tests), hourly data cleaning is retrospective: (a) bounded linear interpolation uses the value after a gap ($\le 6$ hours), (b) the stuck-sensor filter blanks a whole consecutive run once it is known to last $\\ge 24$ hours, and (c) station selection evaluates coverage over the full 2018–2026 period.
+9. **Retrospective Elements in Hourly Cleaning**: While daily features are strictly trailing ($t' \\le t$, enforced by tests), hourly data cleaning is retrospective: (a) bounded linear interpolation uses the value after a gap ($\\le 6$ hours), (b) the stuck-sensor filter blanks a whole consecutive run once it is known to last $\\ge 24$ hours, and (c) station selection evaluates coverage over the full 2018–2026 period.
 
 ---
 

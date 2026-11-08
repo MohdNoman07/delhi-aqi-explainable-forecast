@@ -11,6 +11,8 @@ __pycache__/
 # generated artifacts
 outputs/*.csv
 !outputs/test_predictions.csv
+!outputs/metrics.csv
+!outputs/rf_vs_baseline_ci.csv
 outputs/*.pkl
 outputs/*.joblib
 outputs/*.parquet
