@@ -1,6 +1,0 @@
-horizon,forecast_date,target_date,predicted_aqi,category,typical_mae,actual_aqi,advisory,note
-Day +1,2025-10-19,2025-10-20,341.52,Very Poor,27.57,390.98,avoid outdoor activity where possible,
-Day +2,2025-10-19,2025-10-21,316.66,Very Poor,36.34,454.66,avoid outdoor activity where possible,
-Day +3,2025-10-19,2025-10-22,310.8,Very Poor,38.75,363.96,avoid outdoor activity where possible,at this horizon the model is statistically indistinguishable from a seasonal average
-Day +4,2025-10-19,2025-10-23,335.85,Very Poor,40.26,314.92,avoid outdoor activity where possible,at this horizon the model is statistically indistinguishable from a seasonal average
-Day +5,2025-10-19,2025-10-24,346.92,Very Poor,41.48,304.66,avoid outdoor activity where possible,at this horizon the model is statistically indistinguishable from a seasonal average

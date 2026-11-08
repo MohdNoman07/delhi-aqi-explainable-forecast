@@ -1,6 +1,0 @@
-horizon,forecast_date,target_date,predicted_aqi,category,typical_mae,actual_aqi,advisory,note
-Day +1,2026-09-30,2026-10-01,146.93,Moderate,27.57,N/A,"people with breathing or heart conditions, children and older adults should reduce prolonged outdoor exertion",
-Day +2,2026-09-30,2026-10-02,137.66,Moderate,36.34,N/A,"people with breathing or heart conditions, children and older adults should reduce prolonged outdoor exertion",
-Day +3,2026-09-30,2026-10-03,133.96,Moderate,38.75,N/A,"people with breathing or heart conditions, children and older adults should reduce prolonged outdoor exertion",at this horizon the model is statistically indistinguishable from a seasonal average
-Day +4,2026-09-30,2026-10-04,136.39,Moderate,40.26,N/A,"people with breathing or heart conditions, children and older adults should reduce prolonged outdoor exertion",at this horizon the model is statistically indistinguishable from a seasonal average
-Day +5,2026-09-30,2026-10-05,138.16,Moderate,41.48,N/A,"people with breathing or heart conditions, children and older adults should reduce prolonged outdoor exertion",at this horizon the model is statistically indistinguishable from a seasonal average

@@ -1,5 +1,7 @@
 # Delhi Air Quality Forecasting (2018–2026)
 
+[![Tests](https://github.com/MohdNoman07/delhi-aqi-explainable-forecast/actions/workflows/tests.yml/badge.svg?branch=main)](https://github.com/MohdNoman07/delhi-aqi-explainable-forecast/actions/workflows/tests.yml)
+
 Multi-horizon daily Air Quality Index (AQI) forecasting for the National Capital Territory of Delhi, India, utilizing 8.75 years of continuous hourly monitoring data from the Central Pollution Control Board (CPCB) station network.
 
 The system predicts city-wide CPCB-style NAQI from 1 to 5 days ahead ($h=1..5$) with leakage controls with automated tests, chronological evaluation across two holdout winter seasons, paired block-bootstrap confidence intervals, and SHAP tree attribution.
@@ -135,7 +137,7 @@ Across all 887 test days (alert base rate = 37.3%), comparison of Random Forest 
 
 ## 4. Setup & Environment
 
-The project is developed and verified under Python 3.13.15.
+The project is developed and verified under Python 3.11–3.12.
 
 ```bash
 # 1. Navigate to the project root directory
@@ -143,31 +145,29 @@ cd <project-root>
 
 # 2. Create and activate a virtual environment
 python -m venv .venv
+source .venv/bin/activate    # Windows: .venv\Scripts\activate
 
-# On Windows (PowerShell):
-.\.venv\Scripts\Activate.ps1
-
-# On Linux/macOS:
-source .venv/bin/activate
-
-# 3. Install pinned dependencies
+# 3. Install dependencies
 pip install -r requirements.txt
+
+# 4. Run the test suite
+pytest -q
 ```
 
-Pinned dependencies in `requirements.txt`:
-- `pandas==3.1.1`
-- `numpy==2.5.4`
-- `scipy==1.18.1`
-- `scikit-learn==1.9.1`
-- `joblib==1.6.0`
-- `pyarrow==26.0.1`
-- `matplotlib==3.11.2`
-- `shap==0.54.1`
-- `pytest==9.2.0`
-- `seaborn==0.13.2`
-- `statsmodels==0.15.0`
-- `nbformat==5.11.1`
-- `nbclient==0.11.0`
+Compatible-release ranges in `requirements.txt`:
+- `pandas>=2.2,<3`
+- `numpy>=1.26,<3`
+- `scipy>=1.11,<2`
+- `scikit-learn>=1.4,<2`
+- `joblib>=1.3,<2`
+- `pyarrow>=14.0,<20`
+- `matplotlib>=3.8,<4`
+- `shap>=0.45,<1`
+- `pytest>=8,<9`
+- `seaborn>=0.13,<1`
+- `statsmodels>=0.14,<1`
+- `nbformat>=5.9,<6`
+- `nbclient>=0.9,<1`
 
 ---
 
@@ -227,7 +227,7 @@ Saved forecast figure to outputs/forecast_2026-09-30.png
 │   ├── numbers_used.csv               # Every single tracked metric and parameter with source provenance
 │   ├── report_draft.md                # 11-section publication-ready technical methodology report
 │   └── slides_outline.md              # 12-slide executive presentation outline
-├── models/                            # Serialized models (scikit-learn 1.9.1 / Python 3.13 pickle compatibility)
+├── models/                            # Serialized models (scikit-learn >=1.4 / Python 3.11–3.12 pickle compatibility)
 │   ├── feature_columns.json           # Exact list of 38 engineered feature names
 │   ├── rf_config.json                 # Optimal hyperparameters and target scale per horizon
 │   ├── climatology_train_val.json     # Climatology lookup table fit on Train + Validation
@@ -288,7 +288,7 @@ Saved forecast figure to outputs/forecast_2026-09-30.png
 
 ## 7. End-to-End Pipeline Reproduction
 
-All scripts run from the repository root using standard Python 3.13+ and rely on the fixed seed `RANDOM_SEED = 42` defined in `src/config.py`:
+All scripts run from the repository root using standard Python 3.11–3.12 and rely on the fixed seed `RANDOM_SEED = 42` defined in `src/config.py`:
 
 ```bash
 # 1. Ingest raw station CSVs (filters to 2018-2026, standardizes column names)
@@ -330,7 +330,7 @@ pytest
 
 ## 8. CPCB-Style NAQI Calculation Rules
 
-The daily Air Quality Index follows the Central Pollution Control Board (CPCB) National Air Quality Index methodology (*breakpoints pending verification by the project owner against the official CPCB report*):
+The daily Air Quality Index follows the Central Pollution Control Board (CPCB) National Air Quality Index methodology (*breakpoints follow CPCB NAQI (2014 revision)*):
 
 1. **Daily Aggregation Protocol**:
    - $PM_{2.5}, PM_{10}, NO_2, SO_2, NH_3$: 24-hour arithmetic mean (requires ≥16 valid hourly readings; otherwise NaN).
@@ -383,7 +383,7 @@ pytest
 
 1. **AQI Cap at 500 and the 53 Days Clipped**: CPCB AQI is capped at 500. Exactly 53 calendar days in `clean_daily.csv` have unclipped sub-indices exceeding 500 (reaching up to 885.22); the model may under-predict the most extreme days (explanation not tested).
 2. **City-Average AQI vs Station Bulletins**: AQI in this project is computed from city-wide spatially averaged concentrations. This produces a single representative metropolitan metric, which differs from averaging station-level AQIs or from official CPCB bulletins that report individual station sub-indices.
-3. **Breakpoint Verification**: AQI breakpoints implemented in `src/config.py` are pending formal verification by the project owner against the official CPCB NAQI technical report.
+3. **Breakpoint Verification**: Breakpoints follow CPCB NAQI (2014 revision). Breakpoints are implemented as continuous-float bands in `src/compute_aqi.py`.
 4. **Absence of Numerical Weather Forecasts**: The models rely solely on historical trailing meteorology up to today ($t' \le t$) without forward NWP weather forecast inputs. Rapid meteorological changes (sudden wind shifts, rainfall washout, boundary layer collapses) cannot be anticipated days in advance.
 5. **Data Missingness and August 2026 Gap**: 4 calendar days in 2018–2026 have missing daily AQI due to insufficient station coverage. In August 2026, exactly 71 hours have zero reporting stations for $PM_{2.5}$ (53 hours from Aug 14 to Aug 16, and 18 hours from Aug 18 to Aug 19; cause unknown).
 6. **Distribution Shift Across Split Periods**: High-pollution frequency differs between partitions: Poor-or-worse days represent 48.97% of Train (132 Severe days), 43.47% of Validation (25 Severe days), and 37.32% of Test (44 Severe days).
@@ -392,6 +392,14 @@ pytest
 9. **Retrospective Elements in Hourly Cleaning**: While daily features are strictly trailing ($t' \le t$, enforced by tests), hourly data cleaning is retrospective: (a) bounded linear interpolation uses the value after a gap ($\le 6$ hours), (b) the stuck-sensor filter blanks a whole consecutive run once it is known to last $\ge 24$ hours, and (c) station selection evaluates coverage over the full 2018–2026 period.
 
 ---
+
+---
+
+## 13. License
+
+The code in this repository is licensed under the [MIT License](./LICENSE).
+
+The underlying AQI dataset (*Delhi Air Quality CPCB Hourly 2010–2026*) is licensed separately on Kaggle and is **not** covered by the MIT license.
 
 ## 12. References
 

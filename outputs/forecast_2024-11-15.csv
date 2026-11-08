@@ -1,6 +1,0 @@
-horizon,forecast_date,target_date,predicted_aqi,category,typical_mae,actual_aqi,advisory,note
-Day +1,2024-11-15,2024-11-16,431.59,Severe,27.57,500.00,stay indoors and avoid exertion,
-Day +2,2024-11-15,2024-11-17,379.11,Very Poor,36.34,500.00,avoid outdoor activity where possible,
-Day +3,2024-11-15,2024-11-18,359.19,Very Poor,38.75,500.00,avoid outdoor activity where possible,at this horizon the model is statistically indistinguishable from a seasonal average
-Day +4,2024-11-15,2024-11-19,347.44,Very Poor,40.26,468.75,avoid outdoor activity where possible,at this horizon the model is statistically indistinguishable from a seasonal average
-Day +5,2024-11-15,2024-11-20,339.32,Very Poor,41.48,411.23,avoid outdoor activity where possible,at this horizon the model is statistically indistinguishable from a seasonal average

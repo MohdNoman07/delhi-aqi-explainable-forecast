@@ -1,5 +1,5 @@
 """
-compute_aqi.py  –  CPCB-style NAQI (breakpoints pending verification by the project owner against the official CPCB report).
+compute_aqi.py  –  CPCB-style NAQI. Breakpoints follow CPCB NAQI (2014 revision).
 
 Sub-indices are computed for 7 criteria pollutants: PM2.5, PM10, NO2, SO2, CO, O3, NH3.
 
@@ -22,7 +22,7 @@ import numpy as np
 
 # ── Breakpoint Tables (B_lo, B_hi, I_lo, I_hi) ────────────────────────────────
 # All bands are continuous floats to avoid gaps at integer boundaries.
-# Breakpoints pending verification by the project owner against the official CPCB report.
+# Breakpoints follow CPCB NAQI (2014 revision).
 
 _BREAKPOINTS = {
     "pm25": [       # 24-h avg, µg/m³
