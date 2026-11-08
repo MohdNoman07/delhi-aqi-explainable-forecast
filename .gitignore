@@ -10,6 +10,7 @@ __pycache__/
 
 # generated artifacts
 outputs/*.csv
+!outputs/test_predictions.csv
 outputs/*.pkl
 outputs/*.joblib
 outputs/*.parquet

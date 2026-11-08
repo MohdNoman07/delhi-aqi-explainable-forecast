@@ -112,7 +112,7 @@ def build_feature_row_for_date(df_daily: pd.DataFrame, target_date: str | pd.Tim
 
     if t_dt > max_date:
         raise ValueError(f"Date {t_dt.strftime('%Y-%m-%d')} is beyond available daily data (max: {max_date.strftime('%Y-%m-%d')}).")
-    if t_dt < min_date + pd.Timedelta(days=7):
+    if t_dt < min_date + pd.Timedelta(7, unit="D"):
         raise ValueError(f"Insufficient history: {t_dt.strftime('%Y-%m-%d')} requires at least 7 days of trailing history.")
     if t_dt not in set(df["date"]):
         raise ValueError(f"Date {t_dt.strftime('%Y-%m-%d')} is missing from daily observations.")
