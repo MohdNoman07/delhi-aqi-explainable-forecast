@@ -1,0 +1,82 @@
+{
+  "h1": {
+    "target_scale": "raw",
+    "use_log": false,
+    "val_mae": 30.880046967540146,
+    "raw_val_mae": 30.880046967540146,
+    "log_val_mae": 30.920210470273126,
+    "margin_over_runner_up": 0.040163502732980305,
+    "skill_vs_best_baseline": 0.06980089456920868,
+    "beats_climatology": true,
+    "best_params": {
+      "n_estimators": 400,
+      "min_samples_leaf": 5,
+      "max_features": 0.5,
+      "max_depth": 10
+    }
+  },
+  "h2": {
+    "target_scale": "raw",
+    "use_log": false,
+    "val_mae": 38.79838215322979,
+    "raw_val_mae": 38.79838215322979,
+    "log_val_mae": 41.17493975353286,
+    "margin_over_runner_up": 2.376557600303073,
+    "skill_vs_best_baseline": 0.11743962304430078,
+    "beats_climatology": true,
+    "best_params": {
+      "n_estimators": 400,
+      "min_samples_leaf": 10,
+      "max_features": 0.3,
+      "max_depth": 16
+    }
+  },
+  "h3": {
+    "target_scale": "raw",
+    "use_log": false,
+    "val_mae": 43.206428969770435,
+    "raw_val_mae": 43.206428969770435,
+    "log_val_mae": 45.651677877128,
+    "margin_over_runner_up": 2.4452489073575663,
+    "skill_vs_best_baseline": 0.04676792583907319,
+    "beats_climatology": true,
+    "best_params": {
+      "n_estimators": 400,
+      "min_samples_leaf": 10,
+      "max_features": 0.3,
+      "max_depth": 16
+    }
+  },
+  "h4": {
+    "target_scale": "raw",
+    "use_log": false,
+    "val_mae": 44.53305524778829,
+    "raw_val_mae": 44.53305524778829,
+    "log_val_mae": 46.78979604515402,
+    "margin_over_runner_up": 2.2567407973657296,
+    "skill_vs_best_baseline": 0.015129218305287684,
+    "beats_climatology": true,
+    "best_params": {
+      "n_estimators": 200,
+      "min_samples_leaf": 10,
+      "max_features": 0.3,
+      "max_depth": null
+    }
+  },
+  "h5": {
+    "target_scale": "raw",
+    "use_log": false,
+    "val_mae": 44.92846171085087,
+    "raw_val_mae": 44.92846171085087,
+    "log_val_mae": 47.610399755312734,
+    "margin_over_runner_up": 2.681938044461866,
+    "skill_vs_best_baseline": 0.008188354676817222,
+    "beats_climatology": true,
+    "best_params": {
+      "n_estimators": 400,
+      "min_samples_leaf": 10,
+      "max_features": 0.3,
+      "max_depth": 16
+    }
+  }
+}

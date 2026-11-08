@@ -1,0 +1,11 @@
+forecast_date,target_date,actual,predicted,error,actual_category,predicted_category,days_from_diwali,within_diwali_window,next_to_missing_data_day
+2025-05-10,2025-05-15,411.72,175.74,235.98,Severe,Moderate,-158,No,No
+2026-07-07,2026-07-12,336.04,118.95,217.09,Very Poor,Moderate,265,No,No
+2024-11-29,2024-12-04,147.31,338.87,191.56,Moderate,Very Poor,33,No,No
+2024-11-30,2024-12-05,162.3,345.91,183.61,Moderate,Very Poor,34,No,No
+2025-10-26,2025-10-31,225.5,407.0,181.5,Poor,Severe,11,No,No
+2025-10-16,2025-10-21,454.66,275.94,178.72,Severe,Poor,1,Yes,No
+2024-11-11,2024-11-16,500.0,329.76,170.24,Severe,Very Poor,15,No,No
+2024-11-12,2024-11-17,500.0,331.48,168.52,Severe,Very Poor,16,No,No
+2024-12-23,2024-12-28,188.97,350.39,161.42,Moderate,Very Poor,57,No,No
+2025-12-08,2025-12-13,500.0,339.44,160.56,Severe,Very Poor,54,No,No

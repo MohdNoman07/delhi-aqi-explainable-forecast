@@ -1,0 +1,545 @@
+number_description,value,source_file
+GRAP mitigation operational lead time in hours,48 to 72,PROJECT_NOTES.md
+Total CAAQMS monitoring stations evaluated across Delhi,37,outputs/station_selection.csv
+Dataset start date,2018-01-01,src/config.py
+Dataset end date,2026-09-30,src/config.py
+Total continuous calendar hours in audit period,76680,outputs/station_selection.csv
+Minimum station hourly coverage threshold,50.0%,src/config.py
+Number of retained CAAQMS stations,35,outputs/station_selection.csv
+Number of dropped CAAQMS stations,2,outputs/station_selection.csv
+Dwarka Sector 8 valid hours,6394,outputs/station_selection.csv
+Dwarka Sector 8 total hours,76680,outputs/station_selection.csv
+Dwarka Sector 8 coverage percentage,8.34%,outputs/station_selection.csv
+Lodhi Road valid hours,26377,outputs/station_selection.csv
+Lodhi Road total hours,76680,outputs/station_selection.csv
+Lodhi Road coverage percentage,34.40%,outputs/station_selection.csv
+Minimum reporting stations quorum per pollutant-hour,3,src/config.py
+High-null column drop threshold,>80%,src/config.py
+Minimum pollutants required for valid daily AQI,3,src/config.py
+Pressure readings converted from mmHg to hPa,167594,outputs/cleaning_log.csv
+Out-of-range pressure readings set to NaN,17702,outputs/cleaning_log.csv
+Ozone readings clipped at 500 ug/m3,12,outputs/cleaning_log.csv
+Benzene readings clipped at 200 ug/m3,125,outputs/cleaning_log.csv
+Temperature readings clipped,40,outputs/cleaning_log.csv
+Wind speed readings clipped,108,outputs/cleaning_log.csv
+Solar radiation readings clipped,353,outputs/cleaning_log.csv
+Stuck readings invalidated for barometric pressure,70753,outputs/cleaning_log.csv
+Stuck readings invalidated for wind speed,27347,outputs/cleaning_log.csv
+Stuck readings invalidated for benzene,20006,outputs/cleaning_log.csv
+Stuck readings invalidated for toluene,15767,outputs/cleaning_log.csv
+Stuck readings invalidated for relative humidity,8593,outputs/cleaning_log.csv
+Stuck readings invalidated for carbon monoxide,8197,outputs/cleaning_log.csv
+Stuck readings invalidated for wind direction,6093,outputs/cleaning_log.csv
+Stuck readings invalidated for solar radiation,5851,outputs/cleaning_log.csv
+Stuck readings invalidated for NO2,2485,outputs/cleaning_log.csv
+Stuck readings invalidated for PM2.5,2272,outputs/cleaning_log.csv
+Stuck readings invalidated for O3,1269,outputs/cleaning_log.csv
+Stuck readings invalidated for SO2,1256,outputs/cleaning_log.csv
+Stuck readings invalidated for PM10,1130,outputs/cleaning_log.csv
+Stuck readings invalidated for temperature,1002,outputs/cleaning_log.csv
+Stuck readings invalidated for NO,997,outputs/cleaning_log.csv
+Stuck readings invalidated for NH3,585,outputs/cleaning_log.csv
+Stuck readings invalidated for NOx,376,outputs/cleaning_log.csv
+Station-hours with unphysical PM inversion,3691,outputs/cleaning_log.csv
+Particulate values invalidated due to PM inversion,7382,outputs/cleaning_log.csv
+Transient benzene spikes filtered,1888,outputs/cleaning_log.csv
+Transient toluene spikes filtered,3150,outputs/cleaning_log.csv
+Total engineered feature count,38,models/feature_columns.json
+Training set calendar days,1887,outputs/split_summary.md
+Buffer gap 1 days,5,outputs/split_summary.md
+Buffer gap 1 dropped days,5,outputs/split_summary.md
+Validation set calendar days,352,outputs/split_summary.md
+Buffer gap 2 days,5,outputs/split_summary.md
+Buffer gap 2 dropped days,5,outputs/split_summary.md
+Test set calendar days,887,outputs/split_summary.md
+Total model-ready rows accounted for,3136,outputs/split_summary.md
+Total days dropped in buffer gaps,10,outputs/split_summary.md
+Training set total rows,1887,outputs/split_summary.md
+Validation set total rows,352,outputs/split_summary.md
+Test set total rows,887,outputs/split_summary.md
+Train Good days count,18,outputs/split_summary.md
+Train Good days share,0.95%,outputs/split_summary.md
+Val Good days count,0,outputs/split_summary.md
+Val Good days share,0.00%,outputs/split_summary.md
+Test Good days count,6,outputs/split_summary.md
+Test Good days share,0.68%,outputs/split_summary.md
+Train Satisfactory days count,355,outputs/split_summary.md
+Train Satisfactory days share,18.81%,outputs/split_summary.md
+Val Satisfactory days count,56,outputs/split_summary.md
+Val Satisfactory days share,15.91%,outputs/split_summary.md
+Test Satisfactory days count,184,outputs/split_summary.md
+Test Satisfactory days share,20.74%,outputs/split_summary.md
+Train Moderate days count,590,outputs/split_summary.md
+Train Moderate days share,31.27%,outputs/split_summary.md
+Val Moderate days count,143,outputs/split_summary.md
+Val Moderate days share,40.62%,outputs/split_summary.md
+Test Moderate days count,366,outputs/split_summary.md
+Test Moderate days share,41.26%,outputs/split_summary.md
+Train Poor days count,317,outputs/split_summary.md
+Train Poor days share,16.80%,outputs/split_summary.md
+Val Poor days count,38,outputs/split_summary.md
+Val Poor days share,10.80%,outputs/split_summary.md
+Test Poor days count,122,outputs/split_summary.md
+Test Poor days share,13.75%,outputs/split_summary.md
+Train Very Poor days count,475,outputs/split_summary.md
+Train Very Poor days share,25.17%,outputs/split_summary.md
+Val Very Poor days count,90,outputs/split_summary.md
+Val Very Poor days share,25.57%,outputs/split_summary.md
+Test Very Poor days count,165,outputs/split_summary.md
+Test Very Poor days share,18.60%,outputs/split_summary.md
+Train Severe days count,132,outputs/split_summary.md
+Train Severe days share,7.00%,outputs/split_summary.md
+Val Severe days count,25,outputs/split_summary.md
+Val Severe days share,7.10%,outputs/split_summary.md
+Test Severe days count,44,outputs/split_summary.md
+Test Severe days share,4.96%,outputs/split_summary.md
+Train Poor-or-worse count,924,outputs/split_summary.md
+Train Poor-or-worse share,48.97%,outputs/split_summary.md
+Val Poor-or-worse count,153,outputs/split_summary.md
+Val Poor-or-worse share,43.47%,outputs/split_summary.md
+Test Poor-or-worse count,331,outputs/split_summary.md
+Test Poor-or-worse share,37.32%,outputs/split_summary.md
+RandomizedSearchCV iterations,30,src/train.py
+Val MAE h=1 raw,30.88,models/rf_config.json
+Val MAE h=1 log,30.92,models/rf_config.json
+Val MAE h=1 margin,0.04,models/rf_config.json
+Val MAE h=2 raw,38.8,models/rf_config.json
+Val MAE h=2 log,41.17,models/rf_config.json
+Val MAE h=2 margin,2.38,models/rf_config.json
+Val MAE h=3 raw,43.21,models/rf_config.json
+Val MAE h=3 log,45.65,models/rf_config.json
+Val MAE h=3 margin,2.45,models/rf_config.json
+Val MAE h=4 raw,44.53,models/rf_config.json
+Val MAE h=4 log,46.79,models/rf_config.json
+Val MAE h=4 margin,2.26,models/rf_config.json
+Val MAE h=5 raw,44.93,models/rf_config.json
+Val MAE h=5 log,47.61,models/rf_config.json
+Val MAE h=5 margin,2.68,models/rf_config.json
+Ridge alpha,100.0,PROJECT_NOTES.md
+Test MAE Persistence h=1,30.97,outputs/metrics.csv
+Test RMSE Persistence h=1,44.6,outputs/metrics.csv
+Test R2 Persistence h=1,0.836,outputs/metrics.csv
+Test bias Persistence h=1,0.15,outputs/metrics.csv
+Test Acc Persistence h=1,0.693,outputs/metrics.csv
+Test W1Acc Persistence h=1,0.983,outputs/metrics.csv
+Test AlertPrec Persistence h=1,0.852,outputs/metrics.csv
+Test AlertRec Persistence h=1,0.852,outputs/metrics.csv
+Test Skill Persistence h=1,0.0,outputs/metrics.csv
+Test MAE Climatology h=1,40.37,outputs/metrics.csv
+Test RMSE Climatology h=1,54.23,outputs/metrics.csv
+Test R2 Climatology h=1,0.757,outputs/metrics.csv
+Test bias Climatology h=1,8.46,outputs/metrics.csv
+Test Acc Climatology h=1,0.608,outputs/metrics.csv
+Test W1Acc Climatology h=1,0.971,outputs/metrics.csv
+Test AlertPrec Climatology h=1,0.819,outputs/metrics.csv
+Test AlertRec Climatology h=1,0.779,outputs/metrics.csv
+Test Skill Climatology h=1,-0.303,outputs/metrics.csv
+Test MAE Ridge h=1,28.49,outputs/metrics.csv
+Test RMSE Ridge h=1,39.11,outputs/metrics.csv
+Test R2 Ridge h=1,0.874,outputs/metrics.csv
+Test bias Ridge h=1,-2.46,outputs/metrics.csv
+Test Acc Ridge h=1,0.693,outputs/metrics.csv
+Test W1Acc Ridge h=1,0.993,outputs/metrics.csv
+Test AlertPrec Ridge h=1,0.858,outputs/metrics.csv
+Test AlertRec Ridge h=1,0.858,outputs/metrics.csv
+Test Skill Ridge h=1,0.08,outputs/metrics.csv
+Test MAE RF h=1,27.57,outputs/metrics.csv
+Test RMSE RF h=1,38.84,outputs/metrics.csv
+Test R2 RF h=1,0.876,outputs/metrics.csv
+Test bias RF h=1,3.02,outputs/metrics.csv
+Test Acc RF h=1,0.71,outputs/metrics.csv
+Test W1Acc RF h=1,0.99,outputs/metrics.csv
+Test AlertPrec RF h=1,0.842,outputs/metrics.csv
+Test AlertRec RF h=1,0.87,outputs/metrics.csv
+Test Skill RF h=1,0.11,outputs/metrics.csv
+Test MAE Persistence h=2,42.57,outputs/metrics.csv
+Test RMSE Persistence h=2,59.31,outputs/metrics.csv
+Test R2 Persistence h=2,0.71,outputs/metrics.csv
+Test bias Persistence h=2,0.34,outputs/metrics.csv
+Test Acc Persistence h=2,0.61,outputs/metrics.csv
+Test W1Acc Persistence h=2,0.958,outputs/metrics.csv
+Test AlertPrec Persistence h=2,0.789,outputs/metrics.csv
+Test AlertRec Persistence h=2,0.789,outputs/metrics.csv
+Test Skill Persistence h=2,-0.053,outputs/metrics.csv
+Test MAE Climatology h=2,40.43,outputs/metrics.csv
+Test RMSE Climatology h=2,54.28,outputs/metrics.csv
+Test R2 Climatology h=2,0.758,outputs/metrics.csv
+Test bias Climatology h=2,8.56,outputs/metrics.csv
+Test Acc Climatology h=2,0.607,outputs/metrics.csv
+Test W1Acc Climatology h=2,0.97,outputs/metrics.csv
+Test AlertPrec Climatology h=2,0.819,outputs/metrics.csv
+Test AlertRec Climatology h=2,0.779,outputs/metrics.csv
+Test Skill Climatology h=2,0.0,outputs/metrics.csv
+Test MAE Ridge h=2,37.01,outputs/metrics.csv
+Test RMSE Ridge h=2,49.95,outputs/metrics.csv
+Test R2 Ridge h=2,0.795,outputs/metrics.csv
+Test bias Ridge h=2,-5.24,outputs/metrics.csv
+Test Acc Ridge h=2,0.638,outputs/metrics.csv
+Test W1Acc Ridge h=2,0.981,outputs/metrics.csv
+Test AlertPrec Ridge h=2,0.842,outputs/metrics.csv
+Test AlertRec Ridge h=2,0.819,outputs/metrics.csv
+Test Skill Ridge h=2,0.084,outputs/metrics.csv
+Test MAE RF h=2,36.34,outputs/metrics.csv
+Test RMSE RF h=2,49.29,outputs/metrics.csv
+Test R2 RF h=2,0.8,outputs/metrics.csv
+Test bias RF h=2,2.02,outputs/metrics.csv
+Test Acc RF h=2,0.649,outputs/metrics.csv
+Test W1Acc RF h=2,0.982,outputs/metrics.csv
+Test AlertPrec RF h=2,0.821,outputs/metrics.csv
+Test AlertRec RF h=2,0.831,outputs/metrics.csv
+Test Skill RF h=2,0.101,outputs/metrics.csv
+Test MAE Persistence h=3,47.25,outputs/metrics.csv
+Test RMSE Persistence h=3,64.95,outputs/metrics.csv
+Test R2 Persistence h=3,0.654,outputs/metrics.csv
+Test bias Persistence h=3,0.53,outputs/metrics.csv
+Test Acc Persistence h=3,0.565,outputs/metrics.csv
+Test W1Acc Persistence h=3,0.946,outputs/metrics.csv
+Test AlertPrec Persistence h=3,0.764,outputs/metrics.csv
+Test AlertRec Persistence h=3,0.764,outputs/metrics.csv
+Test Skill Persistence h=3,-0.166,outputs/metrics.csv
+Test MAE Climatology h=3,40.52,outputs/metrics.csv
+Test RMSE Climatology h=3,54.34,outputs/metrics.csv
+Test R2 Climatology h=3,0.758,outputs/metrics.csv
+Test bias Climatology h=3,8.66,outputs/metrics.csv
+Test Acc Climatology h=3,0.607,outputs/metrics.csv
+Test W1Acc Climatology h=3,0.968,outputs/metrics.csv
+Test AlertPrec Climatology h=3,0.819,outputs/metrics.csv
+Test AlertRec Climatology h=3,0.779,outputs/metrics.csv
+Test Skill Climatology h=3,0.0,outputs/metrics.csv
+Test MAE Ridge h=3,39.71,outputs/metrics.csv
+Test RMSE Ridge h=3,53.56,outputs/metrics.csv
+Test R2 Ridge h=3,0.764,outputs/metrics.csv
+Test bias Ridge h=3,-7.67,outputs/metrics.csv
+Test Acc Ridge h=3,0.599,outputs/metrics.csv
+Test W1Acc Ridge h=3,0.976,outputs/metrics.csv
+Test AlertPrec Ridge h=3,0.833,outputs/metrics.csv
+Test AlertRec Ridge h=3,0.77,outputs/metrics.csv
+Test Skill Ridge h=3,0.02,outputs/metrics.csv
+Test MAE RF h=3,38.75,outputs/metrics.csv
+Test RMSE RF h=3,52.8,outputs/metrics.csv
+Test R2 RF h=3,0.771,outputs/metrics.csv
+Test bias RF h=3,1.34,outputs/metrics.csv
+Test Acc RF h=3,0.612,outputs/metrics.csv
+Test W1Acc RF h=3,0.976,outputs/metrics.csv
+Test AlertPrec RF h=3,0.809,outputs/metrics.csv
+Test AlertRec RF h=3,0.779,outputs/metrics.csv
+Test Skill RF h=3,0.044,outputs/metrics.csv
+Test MAE Persistence h=4,49.81,outputs/metrics.csv
+Test RMSE Persistence h=4,68.3,outputs/metrics.csv
+Test R2 Persistence h=4,0.618,outputs/metrics.csv
+Test bias Persistence h=4,0.66,outputs/metrics.csv
+Test Acc Persistence h=4,0.538,outputs/metrics.csv
+Test W1Acc Persistence h=4,0.941,outputs/metrics.csv
+Test AlertPrec Persistence h=4,0.749,outputs/metrics.csv
+Test AlertRec Persistence h=4,0.749,outputs/metrics.csv
+Test Skill Persistence h=4,-0.229,outputs/metrics.csv
+Test MAE Climatology h=4,40.53,outputs/metrics.csv
+Test RMSE Climatology h=4,54.34,outputs/metrics.csv
+Test R2 Climatology h=4,0.758,outputs/metrics.csv
+Test bias Climatology h=4,8.7,outputs/metrics.csv
+Test Acc Climatology h=4,0.605,outputs/metrics.csv
+Test W1Acc Climatology h=4,0.968,outputs/metrics.csv
+Test AlertPrec Climatology h=4,0.819,outputs/metrics.csv
+Test AlertRec Climatology h=4,0.779,outputs/metrics.csv
+Test Skill Climatology h=4,0.0,outputs/metrics.csv
+Test MAE Ridge h=4,40.09,outputs/metrics.csv
+Test RMSE Ridge h=4,54.52,outputs/metrics.csv
+Test R2 Ridge h=4,0.756,outputs/metrics.csv
+Test bias Ridge h=4,-4.31,outputs/metrics.csv
+Test Acc Ridge h=4,0.618,outputs/metrics.csv
+Test W1Acc Ridge h=4,0.973,outputs/metrics.csv
+Test AlertPrec Ridge h=4,0.825,outputs/metrics.csv
+Test AlertRec Ridge h=4,0.77,outputs/metrics.csv
+Test Skill Ridge h=4,0.011,outputs/metrics.csv
+Test MAE RF h=4,40.26,outputs/metrics.csv
+Test RMSE RF h=4,54.35,outputs/metrics.csv
+Test R2 RF h=4,0.758,outputs/metrics.csv
+Test bias RF h=4,3.02,outputs/metrics.csv
+Test Acc RF h=4,0.598,outputs/metrics.csv
+Test W1Acc RF h=4,0.971,outputs/metrics.csv
+Test AlertPrec RF h=4,0.781,outputs/metrics.csv
+Test AlertRec RF h=4,0.752,outputs/metrics.csv
+Test Skill RF h=4,0.007,outputs/metrics.csv
+Test MAE Persistence h=5,52.61,outputs/metrics.csv
+Test RMSE Persistence h=5,70.62,outputs/metrics.csv
+Test R2 Persistence h=5,0.591,outputs/metrics.csv
+Test bias Persistence h=5,0.79,outputs/metrics.csv
+Test Acc Persistence h=5,0.524,outputs/metrics.csv
+Test W1Acc Persistence h=5,0.938,outputs/metrics.csv
+Test AlertPrec Persistence h=5,0.734,outputs/metrics.csv
+Test AlertRec Persistence h=5,0.736,outputs/metrics.csv
+Test Skill Persistence h=5,-0.299,outputs/metrics.csv
+Test MAE Climatology h=5,40.49,outputs/metrics.csv
+Test RMSE Climatology h=5,54.32,outputs/metrics.csv
+Test R2 Climatology h=5,0.758,outputs/metrics.csv
+Test bias Climatology h=5,8.74,outputs/metrics.csv
+Test Acc Climatology h=5,0.605,outputs/metrics.csv
+Test W1Acc Climatology h=5,0.968,outputs/metrics.csv
+Test AlertPrec Climatology h=5,0.819,outputs/metrics.csv
+Test AlertRec Climatology h=5,0.782,outputs/metrics.csv
+Test Skill Climatology h=5,0.0,outputs/metrics.csv
+Test MAE Ridge h=5,40.99,outputs/metrics.csv
+Test RMSE Ridge h=5,55.7,outputs/metrics.csv
+Test R2 Ridge h=5,0.746,outputs/metrics.csv
+Test bias Ridge h=5,-0.54,outputs/metrics.csv
+Test Acc Ridge h=5,0.608,outputs/metrics.csv
+Test W1Acc Ridge h=5,0.97,outputs/metrics.csv
+Test AlertPrec Ridge h=5,0.799,outputs/metrics.csv
+Test AlertRec Ridge h=5,0.77,outputs/metrics.csv
+Test Skill Ridge h=5,-0.012,outputs/metrics.csv
+Test MAE RF h=5,41.48,outputs/metrics.csv
+Test RMSE RF h=5,55.72,outputs/metrics.csv
+Test R2 RF h=5,0.746,outputs/metrics.csv
+Test bias RF h=5,5.28,outputs/metrics.csv
+Test Acc RF h=5,0.589,outputs/metrics.csv
+Test W1Acc RF h=5,0.97,outputs/metrics.csv
+Test AlertPrec RF h=5,0.761,outputs/metrics.csv
+Test AlertRec RF h=5,0.764,outputs/metrics.csv
+Test Skill RF h=5,-0.024,outputs/metrics.csv
+Skill RF h=1 pct,11.0%,outputs/metrics.csv
+Skill RF h=2 pct,10.1%,outputs/metrics.csv
+Skill RF h=3 pct,4.4%,outputs/metrics.csv
+Skill RF h=4 pct,0.7%,outputs/metrics.csv
+Skill RF h=5 pct,-2.4%,outputs/metrics.csv
+RF vs Base h1 mean diff,-3.41,outputs/rf_vs_baseline_ci.csv
+RF vs Base h1 lower,-4.54,outputs/rf_vs_baseline_ci.csv
+RF vs Base h1 upper,-2.3,outputs/rf_vs_baseline_ci.csv
+RF vs Base h2 mean diff,-4.09,outputs/rf_vs_baseline_ci.csv
+RF vs Base h2 lower,-6.26,outputs/rf_vs_baseline_ci.csv
+RF vs Base h2 upper,-1.98,outputs/rf_vs_baseline_ci.csv
+RF vs Base h3 mean diff,-1.78,outputs/rf_vs_baseline_ci.csv
+RF vs Base h3 lower,-3.97,outputs/rf_vs_baseline_ci.csv
+RF vs Base h3 upper,0.18,outputs/rf_vs_baseline_ci.csv
+RF vs Base h4 mean diff,-0.27,outputs/rf_vs_baseline_ci.csv
+RF vs Base h4 lower,-2.42,outputs/rf_vs_baseline_ci.csv
+RF vs Base h4 upper,1.66,outputs/rf_vs_baseline_ci.csv
+RF vs Base h5 mean diff,0.99,outputs/rf_vs_baseline_ci.csv
+RF vs Base h5 lower,-0.92,outputs/rf_vs_baseline_ci.csv
+RF vs Base h5 upper,2.76,outputs/rf_vs_baseline_ci.csv
+RF vs Ridge h1 mean diff,-0.92,outputs/rf_vs_ridge_ci.csv
+RF vs Ridge h1 lower,-1.87,outputs/rf_vs_ridge_ci.csv
+RF vs Ridge h1 upper,-0.03,outputs/rf_vs_ridge_ci.csv
+RF vs Ridge h2 mean diff,-0.67,outputs/rf_vs_ridge_ci.csv
+RF vs Ridge h2 lower,-2.06,outputs/rf_vs_ridge_ci.csv
+RF vs Ridge h2 upper,0.61,outputs/rf_vs_ridge_ci.csv
+RF vs Ridge h3 mean diff,-0.96,outputs/rf_vs_ridge_ci.csv
+RF vs Ridge h3 lower,-2.86,outputs/rf_vs_ridge_ci.csv
+RF vs Ridge h3 upper,0.81,outputs/rf_vs_ridge_ci.csv
+RF vs Ridge h4 mean diff,0.16,outputs/rf_vs_ridge_ci.csv
+RF vs Ridge h4 lower,-1.8,outputs/rf_vs_ridge_ci.csv
+RF vs Ridge h4 upper,1.95,outputs/rf_vs_ridge_ci.csv
+RF vs Ridge h5 mean diff,0.49,outputs/rf_vs_ridge_ci.csv
+RF vs Ridge h5 lower,-1.6,outputs/rf_vs_ridge_ci.csv
+RF vs Ridge h5 upper,2.5,outputs/rf_vs_ridge_ci.csv
+Test holdout days total count,887,outputs/error_analysis.md
+Test holdout alert days total count,331,outputs/error_analysis.md
+Test holdout alert base rate,37.3%,outputs/error_analysis.md
+Winter test days count,302,outputs/error_analysis.md
+Winter alert days count,232,outputs/error_analysis.md
+Winter alert base rate,76.8%,outputs/error_analysis.md
+Non-winter test days count,585,outputs/error_analysis.md
+Non-winter alert days count,99,outputs/error_analysis.md
+Non-winter alert base rate,16.9%,outputs/error_analysis.md
+Trivial winter rule precision,0.768,outputs/error_analysis.md
+Trivial winter rule recall,0.701,outputs/error_analysis.md
+RF h4 winter recall,0.752 vs 0.749,outputs/error_analysis.md
+RF h5 winter recall,0.764 vs 0.752,outputs/error_analysis.md
+CM h1 True Good Pred Good,0,test_predictions.csv
+CM h1 True Good Pred Satisfactory,6,test_predictions.csv
+CM h1 True Good Pred Moderate,0,test_predictions.csv
+CM h1 True Good Pred Poor,0,test_predictions.csv
+CM h1 True Good Pred Very Poor,0,test_predictions.csv
+CM h1 True Good Pred Severe,0,test_predictions.csv
+CM h1 True Satisfactory Pred Good,0,test_predictions.csv
+CM h1 True Satisfactory Pred Satisfactory,138,test_predictions.csv
+CM h1 True Satisfactory Pred Moderate,48,test_predictions.csv
+CM h1 True Satisfactory Pred Poor,0,test_predictions.csv
+CM h1 True Satisfactory Pred Very Poor,0,test_predictions.csv
+CM h1 True Satisfactory Pred Severe,0,test_predictions.csv
+CM h1 True Moderate Pred Good,0,test_predictions.csv
+CM h1 True Moderate Pred Satisfactory,28,test_predictions.csv
+CM h1 True Moderate Pred Moderate,282,test_predictions.csv
+CM h1 True Moderate Pred Poor,50,test_predictions.csv
+CM h1 True Moderate Pred Very Poor,4,test_predictions.csv
+CM h1 True Moderate Pred Severe,0,test_predictions.csv
+CM h1 True Poor Pred Good,0,test_predictions.csv
+CM h1 True Poor Pred Satisfactory,1,test_predictions.csv
+CM h1 True Poor Pred Moderate,38,test_predictions.csv
+CM h1 True Poor Pred Poor,69,test_predictions.csv
+CM h1 True Poor Pred Very Poor,14,test_predictions.csv
+CM h1 True Poor Pred Severe,0,test_predictions.csv
+CM h1 True Very Poor Pred Good,0,test_predictions.csv
+CM h1 True Very Poor Pred Satisfactory,0,test_predictions.csv
+CM h1 True Very Poor Pred Moderate,3,test_predictions.csv
+CM h1 True Very Poor Pred Poor,34,test_predictions.csv
+CM h1 True Very Poor Pred Very Poor,121,test_predictions.csv
+CM h1 True Very Poor Pred Severe,7,test_predictions.csv
+CM h1 True Severe Pred Good,0,test_predictions.csv
+CM h1 True Severe Pred Satisfactory,0,test_predictions.csv
+CM h1 True Severe Pred Moderate,1,test_predictions.csv
+CM h1 True Severe Pred Poor,0,test_predictions.csv
+CM h1 True Severe Pred Very Poor,23,test_predictions.csv
+CM h1 True Severe Pred Severe,20,test_predictions.csv
+RF h1 exact category accuracy,71.0%,outputs/metrics.csv
+RF h1 within-one-category accuracy,99.0%,outputs/metrics.csv
+CM h5 True Good Pred Good,0,test_predictions.csv
+CM h5 True Good Pred Satisfactory,5,test_predictions.csv
+CM h5 True Good Pred Moderate,3,test_predictions.csv
+CM h5 True Good Pred Poor,0,test_predictions.csv
+CM h5 True Good Pred Very Poor,0,test_predictions.csv
+CM h5 True Good Pred Severe,0,test_predictions.csv
+CM h5 True Satisfactory Pred Good,0,test_predictions.csv
+CM h5 True Satisfactory Pred Satisfactory,103,test_predictions.csv
+CM h5 True Satisfactory Pred Moderate,82,test_predictions.csv
+CM h5 True Satisfactory Pred Poor,3,test_predictions.csv
+CM h5 True Satisfactory Pred Very Poor,0,test_predictions.csv
+CM h5 True Satisfactory Pred Severe,0,test_predictions.csv
+CM h5 True Moderate Pred Good,0,test_predictions.csv
+CM h5 True Moderate Pred Satisfactory,33,test_predictions.csv
+CM h5 True Moderate Pred Moderate,252,test_predictions.csv
+CM h5 True Moderate Pred Poor,68,test_predictions.csv
+CM h5 True Moderate Pred Very Poor,8,test_predictions.csv
+CM h5 True Moderate Pred Severe,0,test_predictions.csv
+CM h5 True Poor Pred Good,0,test_predictions.csv
+CM h5 True Poor Pred Satisfactory,0,test_predictions.csv
+CM h5 True Poor Pred Moderate,67,test_predictions.csv
+CM h5 True Poor Pred Poor,39,test_predictions.csv
+CM h5 True Poor Pred Very Poor,14,test_predictions.csv
+CM h5 True Poor Pred Severe,1,test_predictions.csv
+CM h5 True Very Poor Pred Good,0,test_predictions.csv
+CM h5 True Very Poor Pred Satisfactory,0,test_predictions.csv
+CM h5 True Very Poor Pred Moderate,10,test_predictions.csv
+CM h5 True Very Poor Pred Poor,27,test_predictions.csv
+CM h5 True Very Poor Pred Very Poor,125,test_predictions.csv
+CM h5 True Very Poor Pred Severe,3,test_predictions.csv
+CM h5 True Severe Pred Good,0,test_predictions.csv
+CM h5 True Severe Pred Satisfactory,0,test_predictions.csv
+CM h5 True Severe Severe Pred Moderate,1,test_predictions.csv
+CM h5 True Severe Pred Poor,1,test_predictions.csv
+CM h5 True Severe Pred Very Poor,39,test_predictions.csv
+CM h5 True Severe Pred Severe,3,test_predictions.csv
+RF h5 exact category accuracy,58.9%,outputs/metrics.csv
+RF h5 within-one-category accuracy,97.0%,outputs/metrics.csv
+Winter partition days,302,outputs/winter_split_ci.csv
+Non-winter partition days,585,outputs/winter_split_ci.csv
+Winter RF h1 MAE,34.24,outputs/winter_split_ci.csv
+Winter Base h1 MAE,39.24,outputs/winter_split_ci.csv
+Winter h1 mean diff,-5.0,outputs/winter_split_ci.csv
+Winter h1 lower,-7.57,outputs/winter_split_ci.csv
+Winter h1 upper,-2.79,outputs/winter_split_ci.csv
+Non-winter RF h1 MAE,24.12,outputs/winter_split_ci.csv
+Non-winter Base h1 MAE,26.7,outputs/winter_split_ci.csv
+Non-winter h1 mean diff,-2.58,outputs/winter_split_ci.csv
+Non-winter h1 lower,-3.84,outputs/winter_split_ci.csv
+Non-winter h1 upper,-1.48,outputs/winter_split_ci.csv
+Winter RF h2 MAE,46.91,outputs/winter_split_ci.csv
+Winter Base h2 MAE,50.92,outputs/winter_split_ci.csv
+Winter h2 mean diff,-4.01,outputs/winter_split_ci.csv
+Winter h2 lower,-7.86,outputs/winter_split_ci.csv
+Winter h2 upper,-0.51,outputs/winter_split_ci.csv
+Non-winter RF h2 MAE,30.89,outputs/winter_split_ci.csv
+Non-winter Base h2 MAE,35.02,outputs/winter_split_ci.csv
+Non-winter h2 mean diff,-4.13,outputs/winter_split_ci.csv
+Non-winter h2 lower,-6.83,outputs/winter_split_ci.csv
+Non-winter h2 upper,-1.75,outputs/winter_split_ci.csv
+Winter RF h3 MAE,48.93,outputs/winter_split_ci.csv
+Winter Base h3 MAE,50.91,outputs/winter_split_ci.csv
+Winter h3 mean diff,-1.98,outputs/winter_split_ci.csv
+Winter h3 lower,-5.41,outputs/winter_split_ci.csv
+Winter h3 upper,1.43,outputs/winter_split_ci.csv
+Non-winter RF h3 MAE,33.49,outputs/winter_split_ci.csv
+Non-winter Base h3 MAE,35.16,outputs/winter_split_ci.csv
+Non-winter h3 mean diff,-1.67,outputs/winter_split_ci.csv
+Non-winter h3 lower,-4.29,outputs/winter_split_ci.csv
+Non-winter h3 upper,0.6,outputs/winter_split_ci.csv
+Winter RF h4 MAE,50.1,outputs/winter_split_ci.csv
+Winter Base h4 MAE,51.2,outputs/winter_split_ci.csv
+Winter h4 mean diff,-1.09,outputs/winter_split_ci.csv
+Winter h4 lower,-4.75,outputs/winter_split_ci.csv
+Winter h4 upper,2.4,outputs/winter_split_ci.csv
+Non-winter RF h4 MAE,35.18,outputs/winter_split_ci.csv
+Non-winter Base h4 MAE,35.02,outputs/winter_split_ci.csv
+Non-winter h4 mean diff,0.15,outputs/winter_split_ci.csv
+Non-winter h4 lower,-2.37,outputs/winter_split_ci.csv
+Non-winter h4 upper,2.36,outputs/winter_split_ci.csv
+Winter RF h5 MAE,51.47,outputs/winter_split_ci.csv
+Winter Base h5 MAE,51.49,outputs/winter_split_ci.csv
+Winter h5 mean diff,-0.01,outputs/winter_split_ci.csv
+Winter h5 lower,-3.28,outputs/winter_split_ci.csv
+Winter h5 upper,3.31,outputs/winter_split_ci.csv
+Non-winter RF h5 MAE,36.32,outputs/winter_split_ci.csv
+Non-winter Base h5 MAE,34.82,outputs/winter_split_ci.csv
+Non-winter h5 mean diff,1.5,outputs/winter_split_ci.csv
+Non-winter h5 lower,-0.89,outputs/winter_split_ci.csv
+Non-winter h5 upper,3.45,outputs/winter_split_ci.csv
+Worst day 2025-05-15 pred,177.44,outputs/worst_days_h1.csv
+Worst day 2025-05-15 actual,411.72,outputs/worst_days_h1.csv
+Worst day 2025-05-15 error,234.28,outputs/worst_days_h1.csv
+Worst day 2025-05-15 day before AQI,164.01,outputs/error_analysis.md
+Worst day 2025-05-15 PM2.5,210.13,outputs/error_analysis.md
+Worst day 2025-05-15 PM10,439.37,outputs/error_analysis.md
+Worst day 2025-05-15 ratio,47.82%,outputs/error_analysis.md
+Worst day 2026-07-12 pred,160.67,outputs/worst_days_h1.csv
+Worst day 2026-07-12 actual,336.04,outputs/worst_days_h1.csv
+Worst day 2026-07-12 error,175.37,outputs/worst_days_h1.csv
+Worst day 2026-07-12 day before AQI,204.63,outputs/error_analysis.md
+Worst day 2026-07-12 PM2.5,68.41,outputs/error_analysis.md
+Worst day 2026-07-12 PM10,378.83,outputs/error_analysis.md
+Worst day 2026-07-12 ratio,18.06%,outputs/error_analysis.md
+Worst day predictions in Diwali window,4,outputs/error_analysis.md
+Diwali worst target date,2025-10-21,outputs/error_analysis.md
+Diwali worst target actual AQI,454.66,outputs/error_analysis.md
+SHAP h1 Pollutants mean abs,71.8,outputs/shap_family_importance.csv
+SHAP h1 Pollutants share,60.5%,outputs/shap_family_importance.csv
+SHAP h1 AQI history mean abs,30.94,outputs/shap_family_importance.csv
+SHAP h1 AQI history share,26.1%,outputs/shap_family_importance.csv
+SHAP h1 Weather mean abs,10.31,outputs/shap_family_importance.csv
+SHAP h1 Weather share,8.7%,outputs/shap_family_importance.csv
+SHAP h1 Calendar mean abs,5.54,outputs/shap_family_importance.csv
+SHAP h1 Calendar share,4.7%,outputs/shap_family_importance.csv
+SHAP h3 Pollutants mean abs,48.44,outputs/shap_family_importance.csv
+SHAP h3 Pollutants share,40.6%,outputs/shap_family_importance.csv
+SHAP h3 AQI history mean abs,32.08,outputs/shap_family_importance.csv
+SHAP h3 AQI history share,26.9%,outputs/shap_family_importance.csv
+SHAP h3 Weather mean abs,13.67,outputs/shap_family_importance.csv
+SHAP h3 Weather share,11.5%,outputs/shap_family_importance.csv
+SHAP h3 Calendar mean abs,24.97,outputs/shap_family_importance.csv
+SHAP h3 Calendar share,21.0%,outputs/shap_family_importance.csv
+SHAP h5 Pollutants mean abs,40.77,outputs/shap_family_importance.csv
+SHAP h5 Pollutants share,34.9%,outputs/shap_family_importance.csv
+SHAP h5 AQI history mean abs,26.96,outputs/shap_family_importance.csv
+SHAP h5 AQI history share,23.1%,outputs/shap_family_importance.csv
+SHAP h5 Weather mean abs,12.03,outputs/shap_family_importance.csv
+SHAP h5 Weather share,10.3%,outputs/shap_family_importance.csv
+SHAP h5 Calendar mean abs,37.16,outputs/shap_family_importance.csv
+SHAP h5 Calendar share,31.8%,outputs/shap_family_importance.csv
+h1 Pollutants + AQI share combined,86.6%,outputs/shap_notes.md
+SHAP h1 Good Actual,407.4,outputs/shap_notes.md
+SHAP h1 Good Pred,402.3,outputs/shap_notes.md
+SHAP h1 Good Error,5.09,outputs/shap_notes.md
+SHAP h1 Bad Actual,500.0,outputs/shap_notes.md
+SHAP h1 Bad Pred,391.7,outputs/shap_notes.md
+SHAP h1 Bad Error,108.27,outputs/shap_notes.md
+SHAP h5 Good Actual,403.4,outputs/shap_notes.md
+SHAP h5 Good Pred,402.3,outputs/shap_notes.md
+SHAP h5 Good Error,1.04,outputs/shap_notes.md
+SHAP h5 Bad Actual,454.7,outputs/shap_notes.md
+SHAP h5 Bad Pred,275.9,outputs/shap_notes.md
+SHAP h5 Bad Error,178.72,outputs/shap_notes.md
+Demo base date,2025-06-20,predict.py
+Demo h1 target,2025-06-21,predict.py
+Demo h1 pred,77.42,predict.py
+Demo h1 actual,81.99,predict.py
+Demo h2 target,2025-06-22,predict.py
+Demo h2 pred,92.44,predict.py
+Demo h2 actual,89.35,predict.py
+Demo h3 target,2025-06-23,predict.py
+Demo h3 pred,102.88,predict.py
+Demo h3 actual,103.55,predict.py
+Demo h4 target,2025-06-24,predict.py
+Demo h4 pred,112.57,predict.py
+Demo h4 actual,106.65,predict.py
+Demo h5 target,2025-06-25,predict.py
+Demo h5 pred,113.50,predict.py
+Demo h5 actual,121.36,predict.py
+Report compilation date,2026-11-08,PROJECT_NOTES.md

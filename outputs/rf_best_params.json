@@ -1,0 +1,72 @@
+{
+  "h1": {
+    "raw": {
+      "n_estimators": 400,
+      "min_samples_leaf": 5,
+      "max_features": 0.5,
+      "max_depth": 10
+    },
+    "log": {
+      "n_estimators": 400,
+      "min_samples_leaf": 3,
+      "max_features": 0.5,
+      "max_depth": null
+    }
+  },
+  "h2": {
+    "raw": {
+      "n_estimators": 400,
+      "min_samples_leaf": 10,
+      "max_features": 0.3,
+      "max_depth": 16
+    },
+    "log": {
+      "n_estimators": 400,
+      "min_samples_leaf": 10,
+      "max_features": 0.3,
+      "max_depth": 16
+    }
+  },
+  "h3": {
+    "raw": {
+      "n_estimators": 400,
+      "min_samples_leaf": 10,
+      "max_features": 0.3,
+      "max_depth": 16
+    },
+    "log": {
+      "n_estimators": 400,
+      "min_samples_leaf": 10,
+      "max_features": 0.3,
+      "max_depth": 16
+    }
+  },
+  "h4": {
+    "raw": {
+      "n_estimators": 200,
+      "min_samples_leaf": 10,
+      "max_features": 0.3,
+      "max_depth": null
+    },
+    "log": {
+      "n_estimators": 400,
+      "min_samples_leaf": 10,
+      "max_features": 0.3,
+      "max_depth": 16
+    }
+  },
+  "h5": {
+    "raw": {
+      "n_estimators": 400,
+      "min_samples_leaf": 10,
+      "max_features": 0.3,
+      "max_depth": 16
+    },
+    "log": {
+      "n_estimators": 400,
+      "min_samples_leaf": 10,
+      "max_features": 0.3,
+      "max_depth": 16
+    }
+  }
+}
